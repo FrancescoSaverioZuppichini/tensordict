@@ -322,7 +322,7 @@ applies the transform sequentially and then stacks the results.
 
  .. code-block:: none
 
-    One iteration over dataloader done! Time: 1.0926s
+    One iteration over dataloader done! Time: 1.0781s
 
 
 
@@ -354,7 +354,7 @@ transformations to the batched images.
 
  .. code-block:: none
 
-    One iteration over tensorclass dataloader done! Time: 0.3621s
+    One iteration over tensorclass dataloader done! Time: 0.3583s
 
 
 
@@ -388,8 +388,8 @@ need for additional transformations as we load from disk.
 
  .. code-block:: none
 
-    One iteration over val data. Time: 0.8729s
-    One iteration over tensorclass val data. Time: 0.0316s
+    One iteration over val data. Time: 0.8592s
+    One iteration over tensorclass val data. Time: 0.0306s
 
 
 
@@ -397,7 +397,7 @@ need for additional transformations as we load from disk.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  4.948 seconds)
+   **Total running time of the script:** ( 0 minutes  4.854 seconds)
 
 
 .. _sphx_glr_download_tutorials_tensorclass_imagenet.py:
