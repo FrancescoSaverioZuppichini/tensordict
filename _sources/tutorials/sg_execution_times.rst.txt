@@ -5,12 +5,12 @@
 
 Computation times
 =================
-**03:52.763** total execution time for **tutorials** files:
+**02:35.642** total execution time for **tutorials** files:
 
 +---------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_tutorials_tensorclass_fashion.py` (``tensorclass_fashion.py``)   | 01:54.547 | 0.0 MB |
+| :ref:`sphx_glr_tutorials_data_fashion.py` (``data_fashion.py``)                 | 01:17.562 | 0.0 MB |
 +---------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_tutorials_data_fashion.py` (``data_fashion.py``)                 | 01:53.965 | 0.0 MB |
+| :ref:`sphx_glr_tutorials_tensorclass_fashion.py` (``tensorclass_fashion.py``)   | 01:14.267 | 0.0 MB |
 +---------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_tutorials_tensorclass_imagenet.py` (``tensorclass_imagenet.py``) | 00:04.251 | 0.0 MB |
+| :ref:`sphx_glr_tutorials_tensorclass_imagenet.py` (``tensorclass_imagenet.py``) | 00:03.812 | 0.0 MB |
 +---------------------------------------------------------------------------------+-----------+--------+

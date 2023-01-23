@@ -364,8 +364,8 @@ allows us to save repeated computation later during training.
 
     /usr/share/miniconda/envs/build_docs/lib/python3.9/site-packages/torch/utils/data/dataloader.py:554: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
       warnings.warn(_create_warning_msg(
-      0%|          | 0/244 [00:00<?, ?it/s]     26%|##6       | 64/244 [00:00<00:02, 71.16it/s]    100%|##########| 244/244 [00:00<00:00, 247.51it/s]
-      0%|          | 0/153 [00:00<?, ?it/s]     42%|####1     | 64/153 [00:00<00:00, 97.21it/s]    100%|##########| 153/153 [00:00<00:00, 237.65it/s]    100%|##########| 153/153 [00:00<00:00, 194.70it/s]
+      0%|          | 0/244 [00:00<?, ?it/s]     26%|##6       | 64/244 [00:00<00:02, 79.46it/s]    100%|##########| 244/244 [00:00<00:00, 288.68it/s]
+      0%|          | 0/153 [00:00<?, ?it/s]     42%|####1     | 64/153 [00:00<00:00, 114.32it/s]     84%|########3 | 128/153 [00:00<00:00, 196.23it/s]    100%|##########| 153/153 [00:00<00:00, 203.34it/s]
 
 
 
@@ -501,7 +501,7 @@ starting the dataloader can take some time).
 
     /usr/share/miniconda/envs/build_docs/lib/python3.9/site-packages/torch/utils/data/dataloader.py:554: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
       warnings.warn(_create_warning_msg(
-    One iteration over dataloader done! Rate: 312.3236 fps, time:  0.7044s
+    One iteration over dataloader done! Rate: 350.3506 fps, time:  0.6279s
 
 
 
@@ -537,7 +537,7 @@ transformations to the batched images.
 
  .. code-block:: none
 
-    One iteration over tensorclass dataloader done! Rate: 673.7734 fps, time:  0.3265s
+    One iteration over tensorclass dataloader done! Rate: 718.8434 fps, time:  0.3060s
 
 
 
@@ -588,8 +588,8 @@ need for additional transformations as we load from disk.
 
     /usr/share/miniconda/envs/build_docs/lib/python3.9/site-packages/torch/utils/data/dataloader.py:554: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
       warnings.warn(_create_warning_msg(
-    One iteration over val data done! Rate: 244.1536 fps, time:  0.5284s
-    One iteration over tensorclass val data done! Rate: 6900.5499 fps, time:  0.0187s
+    One iteration over val data done! Rate: 276.3338 fps, time:  0.4668s
+    One iteration over tensorclass val data done! Rate: 7301.9233 fps, time:  0.0177s
 
 
 
@@ -635,7 +635,7 @@ out-performed the ``DataLoader`` even when we used a large number of workers.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  4.251 seconds)
+   **Total running time of the script:** ( 0 minutes  3.812 seconds)
 
 
 .. _sphx_glr_download_tutorials_tensorclass_imagenet.py:
