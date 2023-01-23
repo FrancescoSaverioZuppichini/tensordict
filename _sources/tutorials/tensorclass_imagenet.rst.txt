@@ -364,8 +364,8 @@ allows us to save repeated computation later during training.
 
     /usr/share/miniconda/envs/build_docs/lib/python3.9/site-packages/torch/utils/data/dataloader.py:554: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
       warnings.warn(_create_warning_msg(
-      0%|          | 0/244 [00:00<?, ?it/s]     26%|##6       | 64/244 [00:00<00:01, 92.67it/s]    100%|##########| 244/244 [00:00<00:00, 342.36it/s]
-      0%|          | 0/153 [00:00<?, ?it/s]     42%|####1     | 64/153 [00:00<00:00, 136.32it/s]     84%|########3 | 128/153 [00:00<00:00, 215.58it/s]    100%|##########| 153/153 [00:00<00:00, 227.17it/s]
+      0%|          | 0/244 [00:00<?, ?it/s]     26%|##6       | 64/244 [00:00<00:01, 97.34it/s]    100%|##########| 244/244 [00:00<00:00, 344.47it/s]
+      0%|          | 0/153 [00:00<?, ?it/s]     42%|####1     | 64/153 [00:00<00:00, 136.11it/s]     84%|########3 | 128/153 [00:00<00:00, 221.29it/s]    100%|##########| 153/153 [00:00<00:00, 231.95it/s]
 
 
 
@@ -501,7 +501,7 @@ starting the dataloader can take some time).
 
     /usr/share/miniconda/envs/build_docs/lib/python3.9/site-packages/torch/utils/data/dataloader.py:554: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
       warnings.warn(_create_warning_msg(
-    One iteration over dataloader done! Rate: 406.8664 fps, time:  0.5407s
+    One iteration over dataloader done! Rate: 418.4560 fps, time:  0.5257s
 
 
 
@@ -537,7 +537,7 @@ transformations to the batched images.
 
  .. code-block:: none
 
-    One iteration over tensorclass dataloader done! Rate: 884.3222 fps, time:  0.2488s
+    One iteration over tensorclass dataloader done! Rate: 891.2966 fps, time:  0.2468s
 
 
 
@@ -588,8 +588,8 @@ need for additional transformations as we load from disk.
 
     /usr/share/miniconda/envs/build_docs/lib/python3.9/site-packages/torch/utils/data/dataloader.py:554: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
       warnings.warn(_create_warning_msg(
-    One iteration over val data done! Rate: 311.7574 fps, time:  0.4138s
-    One iteration over tensorclass val data done! Rate: 10295.4145 fps, time:  0.0125s
+    One iteration over val data done! Rate: 343.7618 fps, time:  0.3753s
+    One iteration over tensorclass val data done! Rate: 8518.4315 fps, time:  0.0151s
 
 
 
@@ -610,23 +610,32 @@ out-performed the ``DataLoader`` even when we used a large number of workers.
 .. image:: images/imagenet-benchmark-speed.png
    :alt: Bar chart showing collection rate of dataloaders compared with TensorClass
 
-.. GENERATED FROM PYTHON SOURCE LINES 398-408
+.. GENERATED FROM PYTHON SOURCE LINES 395-406
 
-This shows that much of the overhead is coming from i/o operations rather than the
-transforms, and hence explains how the memory-mapped array helps us load data more
-efficiently. Check out the `distributed example <https://github.com/pytorch-labs/tensordict/tree/main/benchmarks/distributed/dataloading.py>`__
-for more context about the other results from these charts.
+.. code-block:: default
 
-We can get even better performance with the TensorClass approach by using multiple
-workers to load batches from the memory-mapped array, though this comes with some
-added complexity. See `this example in our benchmarks
-<https://github.com/pytorch-labs/tensordict/blob/main/benchmarks/distributed/dataloading.py>`__
-for an example of how this could work.
+
+    # This shows that much of the overhead is coming from i/o operations rather than the
+    # transforms, and hence explains how the memory-mapped array helps us load data more
+    # efficiently. Check out the `distributed example <https://github.com/pytorch-labs/tensordict/tree/main/benchmarks/distributed/dataloading.py>`__
+    # for more context about the other results from these charts.
+    #
+    # We can get even better performance with the TensorClass approach by using multiple
+    # workers to load batches from the memory-mapped array, though this comes with some
+    # added complexity. See `this example in our benchmarks
+    # <https://github.com/pytorch-labs/tensordict/blob/main/benchmarks/distributed/dataloading.py>`__
+    # for an example of how this could work.
+
+
+
+
+
+
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  3.279 seconds)
+   **Total running time of the script:** ( 0 minutes  3.275 seconds)
 
 
 .. _sphx_glr_download_tutorials_tensorclass_imagenet.py:
