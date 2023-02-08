@@ -217,7 +217,7 @@
               
               
                 <div class="version">
-                  main (0.0.2a+3f20f80 )
+                  main (0.0.2a+26fef98 )
                 </div>
               
             
@@ -356,7 +356,11 @@
 behaviour from <code class="xref py py-obj docutils literal notranslate"><span class="pre">TensorDict</span></code> while being able to restrict the possible entries
 to a predefined set or implement custom methods for your class.
 Like <code class="xref py py-obj docutils literal notranslate"><span class="pre">TensorDict</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">&#64;tensorclass</span></code> supports nesting, indexing, reshaping,
-item assignment and many more features.</p>
+item assignment. It also supports tensor operations like clone, squeeze, cat, split and many more.
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">&#64;tensorclass</span></code> allows non-tensor entries,
+however all the tensor operations are strictly restricted to tensor attributes. One
+needs to implement their custom methods for non-tensor data. It is important to note that
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">&#64;tensorclass</span></code> does not enforce strict type matching</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">tensordict.prototype</span> <span class="kn">import</span> <span class="n">tensorclass</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">torch</span>
@@ -367,6 +371,7 @@ item assignment and many more features.</p>
 <span class="gp">... </span><span class="k">class</span> <span class="nc">MyData</span><span class="p">:</span>
 <span class="gp">... </span>    <span class="n">floatdata</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span>
 <span class="gp">... </span>    <span class="n">intdata</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span>
+<span class="gp">... </span>    <span class="n">non_tensordata</span><span class="p">:</span> <span class="nb">str</span>
 <span class="gp">... </span>    <span class="n">nested</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">MyData</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="gp">... </span>    <span class="c1"># sparse_data: Optional[KeyedJaggedTensor] = None</span>
 <span class="gp">...</span>
@@ -374,44 +379,207 @@ item assignment and many more features.</p>
 <span class="gp">... </span>        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">nested</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
 <span class="go">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">MyData</span><span class="p">(</span>
-<span class="gp">... </span>  <span class="n">floatdata</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+<span class="gp">... </span>  <span class="n">floatdata</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
 <span class="gp">... </span>  <span class="n">intdata</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
+<span class="gp">... </span>  <span class="n">non_tensordata</span><span class="o">=</span><span class="s2">&quot;test&quot;</span><span class="p">,</span>
 <span class="gp">... </span>  <span class="n">batch_size</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
 <span class="gp">... </span><span class="p">)</span>
-<span class="go">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">batch</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;indexed:&quot;</span><span class="p">,</span> <span class="n">batch</span><span class="p">)</span>
-<span class="go">indexed: MyData(</span>
-<span class="go">    floatdata=Tensor(torch.Size([2, 4, 5]), dtype=torch.float32),</span>
-<span class="go">    intdata=Tensor(torch.Size([2, 4, 1]), dtype=torch.int64),</span>
-<span class="go">    batch_size=torch.Size([2, 4]),</span>
-<span class="go">    device=None,</span>
-<span class="go">    is_shared=False)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;data:&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="go">data: MyData(</span>
+<span class="go">  floatdata=Tensor(shape=torch.Size([3, 4, 5]), device=cpu, dtype=torch.float32, is_shared=False),</span>
+<span class="go">  intdata=Tensor(shape=torch.Size([3, 4, 1]), device=cpu, dtype=torch.int64, is_shared=False),</span>
+<span class="go">  non_tensordata=&#39;test&#39;,</span>
+<span class="go">  nested=None,</span>
+<span class="go">  batch_size=torch.Size([3, 4]),</span>
+<span class="go">  device=None,</span>
+<span class="go">  is_shared=False)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="o">.</span><span class="n">nested</span> <span class="o">=</span> <span class="n">MyData</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="n">floatdata</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
 <span class="gp">... </span>    <span class="n">intdata</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
+<span class="gp">... </span>    <span class="n">non_tensordata</span><span class="o">=</span><span class="s2">&quot;nested_test&quot;</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">batch_size</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
 <span class="gp">... </span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;nested:&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
 <span class="go">nested: MyData(</span>
-<span class="go">    floatdata=Tensor(torch.Size([3, 4, 5]), dtype=torch.float32),</span>
-<span class="go">    intdata=Tensor(torch.Size([3, 4, 1]), dtype=torch.int64),</span>
-<span class="go">    nested=TensorDict(</span>
-<span class="go">        fields={</span>
-<span class="go">            floatdata: Tensor(torch.Size([3, 4, 5]), dtype=torch.float32),</span>
-<span class="go">            intdata: Tensor(torch.Size([3, 4, 1]), dtype=torch.int64)},</span>
-<span class="go">        batch_size=torch.Size([3, 4]),</span>
+<span class="go">  floatdata=Tensor(shape=torch.Size([3, 4, 5]), device=cpu, dtype=torch.float32, is_shared=False),</span>
+<span class="go">  intdata=Tensor(shape=torch.Size([3, 4, 1]), device=cpu, dtype=torch.int64, is_shared=False),</span>
+<span class="go">  non_tensordata=&#39;test&#39;,</span>
+<span class="go">  nested=MyData(</span>
+<span class="go">      floatdata=Tensor(shape=torch.Size([3, 4, 5]), device=cpu, dtype=torch.float32, is_shared=False),</span>
+<span class="go">      intdata=Tensor(shape=torch.Size([3, 4, 1]), device=cpu, dtype=torch.int64, is_shared=False),</span>
+<span class="go">      non_tensordata=&#39;nested_test&#39;,</span>
+<span class="go">      nested=None,</span>
+<span class="go">      batch_size=torch.Size([3, 4]),</span>
+<span class="go">      device=None,</span>
+<span class="go">      is_shared=False),</span>
+<span class="go">  batch_size=torch.Size([3, 4]),</span>
+<span class="go">  device=None,</span>
+<span class="go">  is_shared=False)</span>
+</pre></div>
+</div>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">&#64;tensorclass</span></code> supports indexing. Internally the tensor objects gets indexed,
+however the non-tensor data remains the same</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;indexed:&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">[:</span><span class="mi">2</span><span class="p">])</span>
+<span class="go">indexed: MyData(</span>
+<span class="go">   floatdata=Tensor(shape=torch.Size([2, 4, 5]), device=cpu, dtype=torch.float32, is_shared=False),</span>
+<span class="go">   intdata=Tensor(shape=torch.Size([2, 4, 1]), device=cpu, dtype=torch.int64, is_shared=False),</span>
+<span class="go">   non_tensordata=&#39;test&#39;,</span>
+<span class="go">   nested=MyData(</span>
+<span class="go">      floatdata=Tensor(shape=torch.Size([2, 4, 5]), device=cpu, dtype=torch.float32, is_shared=False),</span>
+<span class="go">      intdata=Tensor(shape=torch.Size([2, 4, 1]), device=cpu, dtype=torch.int64, is_shared=False),</span>
+<span class="go">      non_tensordata=&#39;nested_test&#39;,</span>
+<span class="go">      nested=None,</span>
+<span class="go">      batch_size=torch.Size([2, 4]),</span>
+<span class="go">      device=None,</span>
+<span class="go">      is_shared=False),</span>
+<span class="go">   batch_size=torch.Size([2, 4]),</span>
+<span class="go">   device=None,</span>
+<span class="go">   is_shared=False)</span>
+</pre></div>
+</div>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">&#64;tensorclass</span></code> also supports setting and resetting attributes, even for nested objects.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="o">.</span><span class="n">non_tensordata</span> <span class="o">=</span> <span class="s2">&quot;test_changed&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;data.non_tensordata: &quot;</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">non_tensordata</span><span class="p">))</span>
+<span class="go">data.non_tensordata: &#39;test_changed&#39;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="o">.</span><span class="n">floatdata</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;data.floatdata:&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">floatdata</span><span class="p">)</span>
+<span class="go">data.floatdata: tensor([[[1., 1., 1., 1., 1.],</span>
+<span class="go">       [1., 1., 1., 1., 1.],</span>
+<span class="go">       [1., 1., 1., 1., 1.],</span>
+<span class="go">       [1., 1., 1., 1., 1.]],</span>
+
+<span class="go">      [[1., 1., 1., 1., 1.],</span>
+<span class="go">       [1., 1., 1., 1., 1.],</span>
+<span class="go">       [1., 1., 1., 1., 1.],</span>
+<span class="go">       [1., 1., 1., 1., 1.]],</span>
+
+<span class="go">      [[1., 1., 1., 1., 1.],</span>
+<span class="go">       [1., 1., 1., 1., 1.],</span>
+<span class="go">       [1., 1., 1., 1., 1.],</span>
+<span class="go">       [1., 1., 1., 1., 1.]]])</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Changing nested tensor data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="o">.</span><span class="n">nested</span><span class="o">.</span><span class="n">non_tensordata</span> <span class="o">=</span> <span class="s2">&quot;nested_test_changed&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;data.nested.non_tensordata:&quot;</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">nested</span><span class="o">.</span><span class="n">non_tensordata</span><span class="p">))</span>
+<span class="go">data.nested.non_tensordata: &#39;nested_test_changed&#39;</span>
+</pre></div>
+</div>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">&#64;tensorclass</span></code> supports multiple torch operations over the shape and device
+of its content, such as <cite>stack</cite>, <cite>cat</cite>, <cite>reshape</cite> or <cite>to(device)</cite>. To get
+a full list of the supported operations, check the tensordict documentation.</p>
+<p>Here is an example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data2</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cat_tc</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">data</span><span class="p">,</span> <span class="n">data2</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Concatenated data:&quot;</span><span class="p">,</span> <span class="n">catted_tc</span><span class="p">)</span>
+<span class="go">Concatenated data: MyData(</span>
+<span class="go">   floatdata=Tensor(shape=torch.Size([6, 4, 5]), device=cpu, dtype=torch.float32, is_shared=False),</span>
+<span class="go">   intdata=Tensor(shape=torch.Size([6, 4, 1]), device=cpu, dtype=torch.int64, is_shared=False),</span>
+<span class="go">   non_tensordata=&#39;test_changed&#39;,</span>
+<span class="go">   nested=MyData(</span>
+<span class="go">       floatdata=Tensor(shape=torch.Size([6, 4, 5]), device=cpu, dtype=torch.float32, is_shared=False),</span>
+<span class="go">       intdata=Tensor(shape=torch.Size([6, 4, 1]), device=cpu, dtype=torch.int64, is_shared=False),</span>
+<span class="go">       non_tensordata=&#39;nested_test_changed&#39;,</span>
+<span class="go">       nested=None,</span>
+<span class="go">       batch_size=torch.Size([6, 4]),</span>
+<span class="go">       device=None,</span>
+<span class="go">       is_shared=False),</span>
+<span class="go">   batch_size=torch.Size([6, 4]),</span>
+<span class="go">   device=None,</span>
+<span class="go">   is_shared=False)</span>
+</pre></div>
+</div>
+<section id="edge-cases">
+<h2>Edge cases<a class="headerlink" href="#edge-cases" title="Permalink to this heading">¶</a></h2>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">&#64;tensorclass</span></code> supports equality and inequality operators, even for
+nested objects. Note that the non-tensor/ meta data is not validated.
+This will return a tensor class object with boolean values for
+tensor attributes and None for non-tensor attributes</p>
+<p>Here is an example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">data</span> <span class="o">==</span> <span class="n">data2</span><span class="p">)</span>
+<span class="go">MyData(</span>
+<span class="go">   floatdata=Tensor(shape=torch.Size([3, 4, 5]), device=cpu, dtype=torch.bool, is_shared=False),</span>
+<span class="go">   intdata=Tensor(shape=torch.Size([3, 4, 1]), device=cpu, dtype=torch.bool, is_shared=False),</span>
+<span class="go">   non_tensordata=None,</span>
+<span class="go">   nested=MyData(</span>
+<span class="go">       floatdata=Tensor(shape=torch.Size([3, 4, 5]), device=cpu, dtype=torch.bool, is_shared=False),</span>
+<span class="go">       intdata=Tensor(shape=torch.Size([3, 4, 1]), device=cpu, dtype=torch.bool, is_shared=False),</span>
+<span class="go">       non_tensordata=None,</span>
+<span class="go">       nested=None,</span>
+<span class="go">       batch_size=torch.Size([3, 4]),</span>
+<span class="go">       device=None,</span>
+<span class="go">       is_shared=False),</span>
+<span class="go">   batch_size=torch.Size([3, 4]),</span>
+<span class="go">   device=None,</span>
+<span class="go">   is_shared=False)</span>
+</pre></div>
+</div>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">&#64;tensorclass</span></code> supports setting an item. However, while setting an item
+the identity check of non-tensor / meta data is done instead of equality to
+avoid performance issues. User needs to make sure that the non-tensor data
+of an item matches with the object to avoid discrepancies.</p>
+<p>Here is an example:</p>
+<p>While setting an item with different <code class="docutils literal notranslate"><span class="pre">non_tensor</span></code> data, a <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#UserWarning" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">UserWarning</span></code></a> will be
+thrown</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data2</span><span class="o">.</span><span class="n">non_tensordata</span> <span class="o">=</span> <span class="s2">&quot;test_new&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">data2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">UserWarning: Meta data at &#39;non_tensordata&#39; may or may not be equal, this may result in undefined behaviours</span>
+</pre></div>
+</div>
+<p>Even though <code class="xref py py-obj docutils literal notranslate"><span class="pre">&#64;tensorclass</span></code> supports torch functions like cat and stack, the
+non-tensor / meta data is not validated. The torch operation is performed on the
+tensor data and while returning the output, the non-tensor / meta data of the first
+tensor class object is considered. User needs to make sure that all the
+list of tensor class objects have the same non-tensor data to avoid discrepancies</p>
+<p>Here is an example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data2</span><span class="o">.</span><span class="n">non_tensordata</span> <span class="o">=</span> <span class="s2">&quot;test_new&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stack_tc</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">data</span><span class="p">,</span> <span class="n">data2</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">stack_tc</span><span class="p">)</span>
+<span class="go">MyData(</span>
+<span class="go">    floatdata=Tensor(shape=torch.Size([2, 3, 4, 5]), device=cpu, dtype=torch.float32, is_shared=False),</span>
+<span class="go">    intdata=Tensor(shape=torch.Size([2, 3, 4, 1]), device=cpu, dtype=torch.int64, is_shared=False),</span>
+<span class="go">    non_tensordata=&#39;test&#39;,</span>
+<span class="go">    nested=MyData(</span>
+<span class="go">        floatdata=Tensor(shape=torch.Size([2, 3, 4, 5]), device=cpu, dtype=torch.float32, is_shared=False),</span>
+<span class="go">        intdata=Tensor(shape=torch.Size([2, 3, 4, 1]), device=cpu, dtype=torch.int64, is_shared=False),</span>
+<span class="go">        non_tensordata=&#39;nested_test&#39;,</span>
+<span class="go">        nested=None,</span>
+<span class="go">        batch_size=torch.Size([2, 3, 4]),</span>
 <span class="go">        device=None,</span>
 <span class="go">        is_shared=False),</span>
-<span class="go">    batch_size=[3, 4],</span>
+<span class="go">    batch_size=torch.Size([2, 3, 4]),</span>
 <span class="go">    device=None,</span>
 <span class="go">    is_shared=False)</span>
+</pre></div>
+</div>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">&#64;tensorclass</span></code> also supports pre-allocation, you can initialize
+the object with attributes being None and later set them. Note that while
+initializing, internally the None attributes will be saved as non-tensor / meta data
+and while resetting, based on the type of the value of the attribute,
+it will be saved as either tensor data or non-tensor / meta  data</p>
+<p>Here is an example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nd">@tensorclass</span>
+<span class="gp">... </span><span class="k">class</span> <span class="nc">MyClass</span><span class="p">:</span>
+<span class="gp">... </span>  <span class="n">X</span><span class="p">:</span> <span class="n">Any</span>
+<span class="gp">... </span>  <span class="n">y</span><span class="p">:</span> <span class="n">Any</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">MyClass</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">batch_size</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="s2">&quot;testing&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="go">MyClass(</span>
+<span class="go">   X=Tensor(shape=torch.Size([3, 4, 5]), device=cpu, dtype=torch.float32, is_shared=False),</span>
+<span class="go">   y=&#39;testing&#39;,</span>
+<span class="go">   batch_size=torch.Size([3, 4]),</span>
+<span class="go">   device=None,</span>
+<span class="go">   is_shared=False)</span>
 </pre></div>
 </div>
 <table class="autosummary longtable docutils # Necessary for the table generated by autosummary to look decent align-default">
 <tbody>
 </tbody>
 </table>
+</section>
 </section>
 
 
@@ -455,7 +623,10 @@ item assignment and many more features.</p>
           <div class="pytorch-right-menu" id="pytorch-right-menu">
             <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
               <ul>
-<li><a class="reference internal" href="#">tensorclass prototype</a></li>
+<li><a class="reference internal" href="#">tensorclass prototype</a><ul>
+<li><a class="reference internal" href="#edge-cases">Edge cases</a></li>
+</ul>
+</li>
 </ul>
 
             </div>
