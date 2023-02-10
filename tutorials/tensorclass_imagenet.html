@@ -218,7 +218,7 @@
               
               
                 <div class="version">
-                  main (0.0.2a+3535d18 )
+                  main (0.0.2a+65fbae7 )
                 </div>
               
             
@@ -563,12 +563,12 @@ allows us to save repeated computation later during training.</p>
   warnings.warn(_create_warning_msg(
 
   0%|          | 0/244 [00:00&lt;?, ?it/s]
- 26%|##6       | 64/244 [00:00&lt;00:01, 102.12it/s]
-100%|##########| 244/244 [00:00&lt;00:00, 350.18it/s]
+ 26%|##6       | 64/244 [00:00&lt;00:01, 101.00it/s]
+100%|##########| 244/244 [00:00&lt;00:00, 357.50it/s]
 
   0%|          | 0/153 [00:00&lt;?, ?it/s]
- 42%|####1     | 64/153 [00:00&lt;00:00, 122.32it/s]
-100%|##########| 153/153 [00:00&lt;00:00, 248.29it/s]
+ 42%|####1     | 64/153 [00:00&lt;00:00, 123.99it/s]
+100%|##########| 153/153 [00:00&lt;00:00, 253.98it/s]
 </pre></div>
 </div>
 </section>
@@ -651,7 +651,7 @@ starting the dataloader can take some time).</p>
 </div>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/usr/share/miniconda/envs/build_docs/lib/python3.9/site-packages/torch/utils/data/dataloader.py:554: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
   warnings.warn(_create_warning_msg(
-One iteration over dataloader done! Rate: 399.9855 fps, time:  0.5500s
+One iteration over dataloader done! Rate: 416.7117 fps, time:  0.5279s
 </pre></div>
 </div>
 <p>Our tensorclass-based dataloader instead loads data from the
@@ -670,7 +670,7 @@ transformations to the batched images.</p>
 <span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>One iteration over tensorclass dataloader done! Rate: 804.4003 fps, time:  0.2735s
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>One iteration over tensorclass dataloader done! Rate: 1032.9665 fps, time:  0.2130s
 </pre></div>
 </div>
 <p>In the case of the validation set, we see an even bigger performance
@@ -704,8 +704,8 @@ need for additional transformations as we load from disk.</p>
 </div>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/usr/share/miniconda/envs/build_docs/lib/python3.9/site-packages/torch/utils/data/dataloader.py:554: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
   warnings.warn(_create_warning_msg(
-One iteration over val data done! Rate: 318.2665 fps, time:  0.4053s
-One iteration over tensorclass val data done! Rate: 7932.4608 fps, time:  0.0163s
+One iteration over val data done! Rate: 322.4450 fps, time:  0.4001s
+One iteration over tensorclass val data done! Rate: 9572.4787 fps, time:  0.0135s
 </pre></div>
 </div>
 </section>
@@ -725,7 +725,7 @@ for more context about the other results from these charts.</p>
 workers to load batches from the memory-mapped array, though this comes with some
 added complexity. See <a class="reference external" href="https://github.com/pytorch-labs/tensordict/blob/main/benchmarks/distributed/dataloading.py">this example in our benchmarks</a>
 for an example of how this could work.</p>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  3.178 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  3.014 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-tutorials-tensorclass-imagenet-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/15e3378cb4356a25ae780439b1e18899/tensorclass_imagenet.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">tensorclass_imagenet.py</span></code></a></p>
