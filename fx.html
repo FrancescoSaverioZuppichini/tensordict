@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Welcome to the TensorDict Documentation! &mdash; tensordict main documentation</title>
+  <title>Tracing TensorDictModule &mdash; tensordict main documentation</title>
   
 
   
@@ -36,7 +36,8 @@
   <link rel="stylesheet" href="_static/sg_gallery-rendered-html.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Using TensorDict for datasets" href="tutorials/data_fashion.html" />
+    <link rel="next" title="Saving TensorDict and tensorclass objects" href="saving.html" />
+    <link rel="prev" title="TensorDict in distributed settings" href="distributed.html" />
   <!-- Google Analytics -->
   
   <!-- End Google Analytics -->
@@ -250,10 +251,10 @@
 <li class="toctree-l1"><a class="reference internal" href="tutorials/tensorclass_fashion.html">Using tensorclasses for datasets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/tensorclass_imagenet.html">Batched data loading with tensorclasses</a></li>
 </ul>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="distributed.html">TensorDict in distributed settings</a></li>
-<li class="toctree-l1"><a class="reference internal" href="fx.html">Tracing TensorDictModule</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tracing TensorDictModule</a></li>
 <li class="toctree-l1"><a class="reference internal" href="saving.html">Saving TensorDict and tensorclass objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reference/index.html">API Reference</a></li>
 </ul>
@@ -288,7 +289,7 @@
   <ul class="pytorch-breadcrumbs">
     
       <li>
-        <a href="#">
+        <a href="index.html">
           
             Docs
           
@@ -296,13 +297,13 @@
       </li>
 
         
-      <li>Welcome to the TensorDict Documentation!</li>
+      <li>Tracing TensorDictModule</li>
     
     
       <li class="pytorch-breadcrumbs-aside">
         
             
-            <a href="_sources/index.rst.txt" rel="nofollow"><img src="_static/images/view-page-source-icon.svg"></a>
+            <a href="_sources/fx.rst.txt" rel="nofollow"><img src="_static/images/view-page-source-icon.svg"></a>
           
         
       </li>
@@ -323,7 +324,7 @@
 
           
           <div class="pytorch-call-to-action-links">
-            <div id="tutorial-type">index</div>
+            <div id="tutorial-type">fx</div>
 
             <div id="google-colab-link">
               <img class="call-to-action-img" src="_static/images/pytorch-colab.svg"/>
@@ -349,117 +350,130 @@
             <div role="main" class="main-content" itemscope="itemscope" itemtype="http://schema.org/Article">
              <article itemprop="articleBody" id="pytorch-article" class="pytorch-article">
               
-  <section id="welcome-to-the-tensordict-documentation">
-<h1>Welcome to the TensorDict Documentation!<a class="headerlink" href="#welcome-to-the-tensordict-documentation" title="Permalink to this heading">¶</a></h1>
-<p><cite>TensorDict</cite> is a dictionary-like class that inherits properties from tensors, such as indexing, shape operations, casting to device etc.</p>
-<p>The main purpose of TensorDict is to make code-bases more <em>readable</em> and <em>modular</em> by abstracting away tailored operations:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">tensordict</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dataset</span><span class="p">):</span>
-<span class="gp">... </span>    <span class="c1"># the model reads and writes tensordicts</span>
-<span class="gp">... </span>    <span class="n">tensordict</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">tensordict</span><span class="p">)</span>
-<span class="gp">... </span>    <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_module</span><span class="p">(</span><span class="n">tensordict</span><span class="p">)</span>
-<span class="gp">... </span>    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
-<span class="gp">... </span>    <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
-<span class="gp">... </span>    <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+  <section id="tracing-tensordictmodule">
+<h1>Tracing TensorDictModule<a class="headerlink" href="#tracing-tensordictmodule" title="Permalink to this heading">¶</a></h1>
+<p>We support tracing execution of <code class="xref py py-obj docutils literal notranslate"><span class="pre">TensorDictModule</span></code> to create FX graphs. Simply import <code class="xref py py-obj docutils literal notranslate"><span class="pre">symbolic_trace</span></code> from <code class="docutils literal notranslate"><span class="pre">tensordict.prototype.fx</span></code> instead of <code class="docutils literal notranslate"><span class="pre">torch.fx</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Support for <code class="docutils literal notranslate"><span class="pre">torch.fx</span></code> is highly experimental and subject to change. Use with caution, and raise an issue if you try it out and encounter problems.</p>
+</div>
+<section id="tracing-a-tensordictmodule">
+<h2>Tracing a <code class="xref py py-obj docutils literal notranslate"><span class="pre">TensorDictModule</span></code><a class="headerlink" href="#tracing-a-tensordictmodule" title="Permalink to this heading">¶</a></h2>
+<p>We’ll illustrate with an example from the overview. We create a <code class="xref py py-obj docutils literal notranslate"><span class="pre">TensorDictModule</span></code>, trace it, and inspect the graph and generated code.</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">Tracing a TensorDictModule</span><a class="headerlink" href="#id1" title="Permalink to this code">¶</a></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">tensordict</span> <span class="kn">import</span> <span class="n">TensorDict</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">tensordict.nn</span> <span class="kn">import</span> <span class="n">TensorDictModule</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">tensordict.prototype.fx</span> <span class="kn">import</span> <span class="n">symbolic_trace</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">Net</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">linear</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">LazyLinear</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="n">logits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">linear</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="n">logits</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">logits</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">module</span> <span class="o">=</span> <span class="n">TensorDictModule</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">Net</span><span class="p">(),</span>
+<span class="gp">... </span>    <span class="n">in_keys</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;input&quot;</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="n">out_keys</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;outputs&quot;</span><span class="p">,</span> <span class="s2">&quot;logits&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;outputs&quot;</span><span class="p">,</span> <span class="s2">&quot;probabilities&quot;</span><span class="p">)],</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">graph_module</span> <span class="o">=</span> <span class="n">symbolic_trace</span><span class="p">(</span><span class="n">module</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">graph_module</span><span class="o">.</span><span class="n">graph</span><span class="p">)</span>
+<span class="go">graph():</span>
+<span class="go">    %tensordict : [#users=1] = placeholder[target=tensordict]</span>
+<span class="go">    %getitem : [#users=1] = call_function[target=operator.getitem](args = (%tensordict, input), kwargs = {})</span>
+<span class="go">    %linear : [#users=2] = call_module[target=linear](args = (%getitem,), kwargs = {})</span>
+<span class="go">    %sigmoid : [#users=1] = call_function[target=torch.sigmoid](args = (%linear,), kwargs = {})</span>
+<span class="go">    return (linear, sigmoid)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">graph_module</span><span class="o">.</span><span class="n">code</span><span class="p">)</span>
+
+<span class="go">def forward(self, tensordict):</span>
+<span class="go">    getitem = tensordict[&#39;input&#39;];  tensordict = None</span>
+<span class="go">    linear = self.linear(getitem);  getitem = None</span>
+<span class="go">    sigmoid = torch.sigmoid(linear)</span>
+<span class="go">    return (linear, sigmoid)</span>
 </pre></div>
 </div>
-<p>With this level of abstraction, one can recycle a training loop for highly heterogeneous task.
-Each individual step of the training loop (data collection and transform, model prediction, loss computation etc.)
-can be tailored to the use case at hand without impacting the others.
-For instance, the above example can be easily used across classification and segmentation tasks, among many others.</p>
-</section>
-<section id="tutorials">
-<h1>Tutorials<a class="headerlink" href="#tutorials" title="Permalink to this heading">¶</a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/data_fashion.html">Using TensorDict for datasets</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorials/data_fashion.html#dataloaders">DataLoaders</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorials/data_fashion.html#model">Model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorials/data_fashion.html#optimizing-the-parameters">Optimizing the parameters</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/tensorclass_fashion.html">Using tensorclasses for datasets</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorials/tensorclass_fashion.html#dataloaders">DataLoaders</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorials/tensorclass_fashion.html#model">Model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorials/tensorclass_fashion.html#optimizing-the-parameters">Optimizing the parameters</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/tensorclass_imagenet.html">Batched data loading with tensorclasses</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorials/tensorclass_imagenet.html#transforms">Transforms</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorials/tensorclass_imagenet.html#representing-data-with-a-tensorclass">Representing data with a TensorClass</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorials/tensorclass_imagenet.html#dataloaders">DataLoaders</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorials/tensorclass_imagenet.html#results-from-imagenet">Results from ImageNet</a></li>
-</ul>
-</li>
-</ul>
+</div>
+<p>We can check that a forward pass with each module results in the same outputs.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tensordict</span> <span class="o">=</span> <span class="n">TensorDict</span><span class="p">({</span><span class="s2">&quot;input&quot;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">100</span><span class="p">)},</span> <span class="p">[</span><span class="mi">32</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">module_out</span> <span class="o">=</span> <span class="n">module</span><span class="p">(</span><span class="n">tensordict</span><span class="p">,</span> <span class="n">tensordict_out</span><span class="o">=</span><span class="n">TensorDict</span><span class="p">({},</span> <span class="p">[]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">graph_module_out</span> <span class="o">=</span> <span class="n">graph_module</span><span class="p">(</span><span class="n">tensordict</span><span class="p">,</span> <span class="n">tensordict_out</span><span class="o">=</span><span class="n">TensorDict</span><span class="p">({},</span> <span class="p">[]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="p">(</span>
+<span class="gp">... </span>    <span class="n">module_out</span><span class="p">[</span><span class="s2">&quot;outputs&quot;</span><span class="p">,</span> <span class="s2">&quot;logits&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">graph_module_out</span><span class="p">[</span><span class="s2">&quot;outputs&quot;</span><span class="p">,</span> <span class="s2">&quot;logits&quot;</span><span class="p">]</span>
+<span class="gp">... </span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="p">(</span>
+<span class="gp">... </span>    <span class="n">module_out</span><span class="p">[</span><span class="s2">&quot;outputs&quot;</span><span class="p">,</span> <span class="s2">&quot;probabilities&quot;</span><span class="p">]</span>
+<span class="gp">... </span>    <span class="o">==</span> <span class="n">graph_module_out</span><span class="p">[</span><span class="s2">&quot;outputs&quot;</span><span class="p">,</span> <span class="s2">&quot;probabilities&quot;</span><span class="p">]</span>
+<span class="gp">... </span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+</pre></div>
 </div>
 </section>
-<section id="contents">
-<h1>Contents<a class="headerlink" href="#contents" title="Permalink to this heading">¶</a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#motivation">Motivation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#features">Features</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#nested-tensordicts">Nested TensorDicts</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#lazy-evaluation">Lazy evaluation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#lazy-pre-allocation">Lazy pre-allocation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#tensordictmodule">TensorDictModule</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#functional-programming">Functional Programming</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="distributed.html">TensorDict in distributed settings</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="distributed.html#creating-a-memory-mapped-tensordict">Creating a memory-mapped TensorDict</a></li>
-<li class="toctree-l2"><a class="reference internal" href="distributed.html#operating-on-memory-mapped-tensors-across-nodes">Operating on Memory-mapped tensors across nodes</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="fx.html">Tracing TensorDictModule</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="fx.html#tracing-a-tensordictmodule">Tracing a <code class="xref py py-obj docutils literal notranslate"><span class="pre">TensorDictModule</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="fx.html#tracing-a-tensordictsequential">Tracing a <code class="xref py py-obj docutils literal notranslate"><span class="pre">TensorDictSequential</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="saving.html">Saving TensorDict and tensorclass objects</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="saving.html#general-use-case-in-memory-loading">General use case: in-memory loading</a></li>
-<li class="toctree-l2"><a class="reference internal" href="saving.html#saving-and-loading-big-datasets">Saving and loading big-datasets</a></li>
-<li class="toctree-l2"><a class="reference internal" href="saving.html#saving-memmory-mapped-tensordicts">Saving memmory-mapped TensorDicts</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="saving.html#handling-existing-memmaptensors">Handling existing <code class="docutils literal notranslate"><span class="pre">MemmapTensors</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="reference/index.html">API Reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="reference/tensordict.html">tensordict package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="reference/generated/tensordict.TensorDict.html">TensorDict</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/generated/tensordict.SubTensorDict.html">SubTensorDict</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/generated/tensordict.LazyStackedTensorDict.html">LazyStackedTensorDict</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/tensordict.html#memory-mapped-tensors">Memory-mapped tensors</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/tensordict.html#utils">Utils</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="reference/nn.html">tensordict.nn package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="reference/generated/tensordict.nn.TensorDictModule.html">TensorDictModule</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/generated/tensordict.nn.ProbabilisticTensorDictModule.html">ProbabilisticTensorDictModule</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/generated/tensordict.nn.TensorDictSequential.html">TensorDictSequential</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/generated/tensordict.nn.TensorDictModuleWrapper.html">TensorDictModuleWrapper</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/nn.html#functional">Functional</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/nn.html#utils">Utils</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="reference/prototype.html">tensorclass prototype</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="reference/prototype.html#edge-cases">Edge cases</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
+<section id="tracing-a-tensordictsequential">
+<h2>Tracing a <code class="xref py py-obj docutils literal notranslate"><span class="pre">TensorDictSequential</span></code><a class="headerlink" href="#tracing-a-tensordictsequential" title="Permalink to this heading">¶</a></h2>
+<p>We can also trace <code class="xref py py-obj docutils literal notranslate"><span class="pre">TensorDictSequential</span></code>. In this case the entire execution of the module is traced into a single graph, eliminating intermediate reads and writes on the input <code class="xref py py-obj docutils literal notranslate"><span class="pre">TensorDict</span></code>.</p>
+<p>We demonstrate by tracing the sequential example from the overview.</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">Tracing TensorDictSequential</span><a class="headerlink" href="#id2" title="Permalink to this code">¶</a></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">tensordict</span> <span class="kn">import</span> <span class="n">TensorDict</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">tensordict.nn</span> <span class="kn">import</span> <span class="n">TensorDictModule</span><span class="p">,</span> <span class="n">TensorDictSequential</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">tensordict.prototype.fx</span> <span class="kn">import</span> <span class="n">symbolic_trace</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">Net</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">hidden_size</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">output_size</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">input_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">)</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_size</span><span class="p">,</span> <span class="n">output_size</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">... </span><span class="k">class</span> <span class="nc">Masker</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">mask</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">mask</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">net</span> <span class="o">=</span> <span class="n">TensorDictModule</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">Net</span><span class="p">(),</span> <span class="n">in_keys</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;input&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">)],</span> <span class="n">out_keys</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;intermediate&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">)]</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">masker</span> <span class="o">=</span> <span class="n">TensorDictModule</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">Masker</span><span class="p">(),</span>
+<span class="gp">... </span>    <span class="n">in_keys</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;intermediate&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;input&quot;</span><span class="p">,</span> <span class="s2">&quot;mask&quot;</span><span class="p">)],</span>
+<span class="gp">... </span>    <span class="n">out_keys</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;output&quot;</span><span class="p">,</span> <span class="s2">&quot;probabilities&quot;</span><span class="p">)],</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">module</span> <span class="o">=</span> <span class="n">TensorDictSequential</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">masker</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">graph_module</span> <span class="o">=</span> <span class="n">symbolic_trace</span><span class="p">(</span><span class="n">module</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">graph_module</span><span class="o">.</span><span class="n">code</span><span class="p">)</span>
+
+<span class="go">def forward(self, tensordict):</span>
+<span class="go">    getitem = tensordict[(&#39;input&#39;, &#39;x&#39;)]</span>
+<span class="go">    _0_fc1 = getattr(self, &quot;0&quot;).module.fc1(getitem);  getitem = None</span>
+<span class="go">    relu = torch.relu(_0_fc1);  _0_fc1 = None</span>
+<span class="go">    _0_fc2 = getattr(self, &quot;0&quot;).module.fc2(relu);  relu = None</span>
+<span class="go">    getitem_1 = tensordict[(&#39;input&#39;, &#39;mask&#39;)];  tensordict = None</span>
+<span class="go">    mul = _0_fc2 * getitem_1;  getitem_1 = None</span>
+<span class="go">    softmax = torch.softmax(mul, dim = 1);  mul = None</span>
+<span class="go">    return (_0_fc2, softmax)</span>
+</pre></div>
 </div>
-</section>
-<section id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading">¶</a></h1>
-<ul class="simple">
-<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
-<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
-<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
-</ul>
+</div>
+<p>In this case the generated graph and code is a bit more complicated. We can visualize it as follows (requires <code class="docutils literal notranslate"><span class="pre">pydot</span></code>)</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">Visualising the graph</span><a class="headerlink" href="#id3" title="Permalink to this code">¶</a></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">torch.fx.passes.graph_drawer</span> <span class="kn">import</span> <span class="n">FxGraphDrawer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">FxGraphDrawer</span><span class="p">(</span><span class="n">graph_module</span><span class="p">,</span> <span class="s2">&quot;sequential&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;graph.svg&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">get_dot_graph</span><span class="p">()</span><span class="o">.</span><span class="n">create_svg</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<p>Which results in the following visualisation</p>
+<img alt="Visualization of the traced graph." src="_images/graph.svg" /></section>
 </section>
 
 
@@ -470,8 +484,10 @@ For instance, the above example can be easily used across classification and seg
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="tutorials/data_fashion.html" class="btn btn-neutral float-right" title="Using TensorDict for datasets" accesskey="n" rel="next">Next <img src="_static/images/chevron-right-orange.svg" class="next-page"></a>
+        <a href="saving.html" class="btn btn-neutral float-right" title="Saving TensorDict and tensorclass objects" accesskey="n" rel="next">Next <img src="_static/images/chevron-right-orange.svg" class="next-page"></a>
       
+      
+        <a href="distributed.html" class="btn btn-neutral" title="TensorDict in distributed settings" accesskey="p" rel="prev"><img src="_static/images/chevron-right-orange.svg" class="previous-page"> Previous</a>
       
     </div>
   
@@ -503,10 +519,11 @@ For instance, the above example can be easily used across classification and seg
           <div class="pytorch-right-menu" id="pytorch-right-menu">
             <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
               <ul>
-<li><a class="reference internal" href="#">Welcome to the TensorDict Documentation!</a></li>
-<li><a class="reference internal" href="#tutorials">Tutorials</a></li>
-<li><a class="reference internal" href="#contents">Contents</a></li>
-<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+<li><a class="reference internal" href="#">Tracing TensorDictModule</a><ul>
+<li><a class="reference internal" href="#tracing-a-tensordictmodule">Tracing a <code class="xref py py-obj docutils literal notranslate"><span class="pre">TensorDictModule</span></code></a></li>
+<li><a class="reference internal" href="#tracing-a-tensordictsequential">Tracing a <code class="xref py py-obj docutils literal notranslate"><span class="pre">TensorDictSequential</span></code></a></li>
+</ul>
+</li>
 </ul>
 
             </div>
