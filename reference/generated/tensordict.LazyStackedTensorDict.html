@@ -218,7 +218,7 @@
               
               
                 <div class="version">
-                  main (0.0.2b+cdac04f )
+                  main (0.0.2b+e6ff15a )
                 </div>
               
             
@@ -919,6 +919,27 @@ we do not recommend calling this method inside a training loop.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="tensordict.LazyStackedTensorDict.memmap_like">
+<span class="sig-name descname"><span class="pre">memmap_like</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">TensorDictBase</span></span></span><a class="headerlink" href="#tensordict.LazyStackedTensorDict.memmap_like" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates an empty Memory-mapped tensordict with the same content shape as the current one.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>prefix</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – directory prefix where the memmap tensors will have to
+be stored.</p>
+</dd>
+</dl>
+<p>The resulting TensorDict will be locked and <code class="docutils literal notranslate"><span class="pre">is_memmap()</span> <span class="pre">=</span> <span class="pre">True</span></code>,
+meaning that the only writing operations that can be executed must be done in-place.
+Once the tensordict is unlocked, the memmap attribute is turned to False,
+because cross-process identity is not guaranteed anymore.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>a new <code class="docutils literal notranslate"><span class="pre">TensorDict</span></code> instance with data stored as memory-mapped tensors.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="tensordict.LazyStackedTensorDict.numel">
 <span class="sig-name descname"><span class="pre">numel</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span></span><a class="headerlink" href="#tensordict.LazyStackedTensorDict.numel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Total number of elements in the batch.</p>
@@ -1438,6 +1459,7 @@ tensor) dict should be cloned before being set. Default is
 <li><a class="reference internal" href="#tensordict.LazyStackedTensorDict.masked_fill_"><code class="docutils literal notranslate"><span class="pre">LazyStackedTensorDict.masked_fill_()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.LazyStackedTensorDict.masked_select"><code class="docutils literal notranslate"><span class="pre">LazyStackedTensorDict.masked_select()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.LazyStackedTensorDict.memmap_"><code class="docutils literal notranslate"><span class="pre">LazyStackedTensorDict.memmap_()</span></code></a></li>
+<li><a class="reference internal" href="#tensordict.LazyStackedTensorDict.memmap_like"><code class="docutils literal notranslate"><span class="pre">LazyStackedTensorDict.memmap_like()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.LazyStackedTensorDict.numel"><code class="docutils literal notranslate"><span class="pre">LazyStackedTensorDict.numel()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.LazyStackedTensorDict.permute"><code class="docutils literal notranslate"><span class="pre">LazyStackedTensorDict.permute()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.LazyStackedTensorDict.pin_memory"><code class="docutils literal notranslate"><span class="pre">LazyStackedTensorDict.pin_memory()</span></code></a></li>
