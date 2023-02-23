@@ -218,7 +218,7 @@
               
               
                 <div class="version">
-                  main (0.0.2b+8e88cba )
+                  main (0.0.2b+16c4473 )
                 </div>
               
             
@@ -714,6 +714,66 @@ have the same shape as the index.</p></li>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="tensordict.LazyStackedTensorDict.gather_and_stack">
+<span class="sig-name descname"><span class="pre">gather_and_stack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dest</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tensordict.LazyStackedTensorDict.gather_and_stack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gathers tensordicts from various workers and stacks them onto self in the destination worker.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dest</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – the rank of the destination worker where <a class="reference internal" href="#tensordict.LazyStackedTensorDict.gather_and_stack" title="tensordict.LazyStackedTensorDict.gather_and_stack"><code class="xref py py-func docutils literal notranslate"><span class="pre">gather_and_stack()</span></code></a> will be called.</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">multiprocessing</span> <span class="k">as</span> <span class="n">mp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">tensordict</span> <span class="kn">import</span> <span class="n">TensorDict</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">client</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="n">torch</span><span class="o">.</span><span class="n">distributed</span><span class="o">.</span><span class="n">init_process_group</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="s2">&quot;gloo&quot;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">rank</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">world_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">init_method</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;tcp://localhost:10003&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="p">)</span>
+<span class="gp">... </span>    <span class="c1"># Create a single tensordict to be sent to server</span>
+<span class="gp">... </span>    <span class="n">td</span> <span class="o">=</span> <span class="n">TensorDict</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="p">{(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">):</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+<span class="gp">... </span>         <span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">)},</span> <span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="gp">... </span>    <span class="p">)</span>
+<span class="gp">... </span>    <span class="n">td</span><span class="o">.</span><span class="n">gather_and_stack</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">server</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="n">torch</span><span class="o">.</span><span class="n">distributed</span><span class="o">.</span><span class="n">init_process_group</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="s2">&quot;gloo&quot;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">rank</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">world_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">init_method</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;tcp://localhost:10003&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="p">)</span>
+<span class="gp">... </span>    <span class="c1"># Creates the destination tensordict on server.</span>
+<span class="gp">... </span>    <span class="c1"># The first dim must be equal to world_size-1</span>
+<span class="gp">... </span>    <span class="n">td</span> <span class="o">=</span> <span class="n">TensorDict</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="p">{(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">):</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+<span class="gp">... </span>         <span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)},</span> <span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="gp">... </span>    <span class="p">)</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="n">td</span><span class="o">.</span><span class="n">gather_and_stack</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="n">td</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;yuppie&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">mp</span><span class="o">.</span><span class="n">set_start_method</span><span class="p">(</span><span class="s2">&quot;spawn&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="n">main_worker</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">server</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">secondary_worker</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">client</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="n">main_worker</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="n">secondary_worker</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="n">main_worker</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="n">secondary_worker</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="tensordict.LazyStackedTensorDict.get">
 <span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><span class="pre">Tensor</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="tensordict.MemmapTensor.html#tensordict.MemmapTensor" title="tensordict.memmap.MemmapTensor"><span class="pre">MemmapTensor</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'_no_default_'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><span class="pre">Tensor</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="tensordict.MemmapTensor.html#tensordict.MemmapTensor" title="tensordict.memmap.MemmapTensor"><span class="pre">MemmapTensor</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#tensordict.LazyStackedTensorDict.get" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets the value stored with the input key.</p>
@@ -769,6 +829,38 @@ batch_size and device. Insertion is in-place, nothing is returned.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="tensordict.LazyStackedTensorDict.irecv">
+<span class="sig-name descname"><span class="pre">irecv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_premature</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_tag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pseudo_rand</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tensordict.LazyStackedTensorDict.irecv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Receives the content of a tensordict and updates content with it asynchronously.</p>
+<p>Check the example in the <cite>isend</cite> method for context.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>src</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – the rank of the source worker.</p></li>
+<li><p><strong>return_premature</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code>, returns a list of futures to wait
+upon until the tensordict is updated. Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>,
+i.e. waits until update is completed withing the call.</p></li>
+<li><p><strong>init_tag</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – the <code class="docutils literal notranslate"><span class="pre">init_tag</span></code> used by the source worker.</p></li>
+<li><p><strong>pseudo_rand</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – if True, the sequence of tags will be pseudo-
+random, allowing to send multiple data from different nodes
+without overlap. Notice that the generation of these pseudo-random
+numbers is expensive (1e-5 sec/number), meaning that it could
+slow down the runtime of your algorithm.
+This value must match the one passed to <a class="reference internal" href="#tensordict.LazyStackedTensorDict.isend" title="tensordict.LazyStackedTensorDict.isend"><code class="xref py py-func docutils literal notranslate"><span class="pre">isend()</span></code></a>.
+Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>if <code class="docutils literal notranslate"><span class="pre">return_premature=True</span></code>, a list of futures to wait</dt><dd><p>upon until the tensordict is updated.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="tensordict.LazyStackedTensorDict.is_contiguous">
 <span class="sig-name descname"><span class="pre">is_contiguous</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#tensordict.LazyStackedTensorDict.is_contiguous" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a boolean indicating if all the tensors are contiguous.</p>
@@ -793,6 +885,91 @@ on a device where the content is shared will the tensordict be considered
 in shared memory.</p>
 <p>This is always True for CUDA tensordicts, except when stored as
 MemmapTensors.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tensordict.LazyStackedTensorDict.isend">
+<span class="sig-name descname"><span class="pre">isend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dst</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_tag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pseudo_rand</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tensordict.LazyStackedTensorDict.isend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends the content of the tensordict asynchronously.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dst</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – the rank of the destination worker where the content
+should be sent.</p></li>
+<li><p><strong>init_tag</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – the initial tag to be used to mark the tensors.
+Note that this will be incremented by as much as the number of
+tensors contained in the TensorDict.</p></li>
+<li><p><strong>pseudo_rand</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – if True, the sequence of tags will be pseudo-
+random, allowing to send multiple data from different nodes
+without overlap. Notice that the generation of these pseudo-random
+numbers is expensive (1e-5 sec/number), meaning that it could
+slow down the runtime of your algorithm.
+Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">tensordict</span> <span class="kn">import</span> <span class="n">TensorDict</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">multiprocessing</span> <span class="k">as</span> <span class="n">mp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">client</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="n">torch</span><span class="o">.</span><span class="n">distributed</span><span class="o">.</span><span class="n">init_process_group</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="s2">&quot;gloo&quot;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">rank</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">world_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">init_method</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;tcp://localhost:10003&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="n">td</span> <span class="o">=</span> <span class="n">TensorDict</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="p">{</span>
+<span class="gp">... </span>            <span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">):</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+<span class="gp">... </span>            <span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+<span class="gp">... </span>            <span class="s2">&quot;_&quot;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+<span class="gp">... </span>        <span class="p">},</span>
+<span class="gp">... </span>        <span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">)</span>
+<span class="gp">... </span>    <span class="n">td</span><span class="o">.</span><span class="n">isend</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">server</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="n">return_premature</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">torch</span><span class="o">.</span><span class="n">distributed</span><span class="o">.</span><span class="n">init_process_group</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="s2">&quot;gloo&quot;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">rank</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">world_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">init_method</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;tcp://localhost:10003&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="p">)</span>
+<span class="gp">... </span>    <span class="n">td</span> <span class="o">=</span> <span class="n">TensorDict</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="p">{</span>
+<span class="gp">... </span>            <span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">):</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+<span class="gp">... </span>            <span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+<span class="gp">... </span>            <span class="s2">&quot;_&quot;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+<span class="gp">... </span>        <span class="p">},</span>
+<span class="gp">... </span>        <span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">)</span>
+<span class="gp">... </span>    <span class="n">out</span> <span class="o">=</span> <span class="n">td</span><span class="o">.</span><span class="n">irecv</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">return_premature</span><span class="o">=</span><span class="n">return_premature</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">if</span> <span class="n">return_premature</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="k">for</span> <span class="n">fut</span> <span class="ow">in</span> <span class="n">out</span><span class="p">:</span>
+<span class="gp">... </span>            <span class="n">fut</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="p">(</span><span class="n">td</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="n">queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;yuppie&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">queue</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">Queue</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">main_worker</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">Process</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="n">target</span><span class="o">=</span><span class="n">server</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="p">)</span>
+<span class="gp">... </span>        <span class="p">)</span>
+<span class="gp">... </span>    <span class="n">secondary_worker</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">client</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="n">main_worker</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="n">secondary_worker</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="n">out</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="n">out</span> <span class="o">==</span> <span class="s2">&quot;yuppie&quot;</span>
+<span class="gp">... </span>    <span class="n">main_worker</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="n">secondary_worker</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -1001,6 +1178,28 @@ a single iterable of integers can be provided.</p></li>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="tensordict.LazyStackedTensorDict.recv">
+<span class="sig-name descname"><span class="pre">recv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_tag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pseudo_rand</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tensordict.LazyStackedTensorDict.recv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Receives the content of a tensordict and updates content with it.</p>
+<p>Check the example in the <cite>send</cite> method for context.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>src</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – the rank of the source worker.</p></li>
+<li><p><strong>init_tag</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – the <code class="docutils literal notranslate"><span class="pre">init_tag</span></code> used by the source worker.</p></li>
+<li><p><strong>pseudo_rand</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – if True, the sequence of tags will be pseudo-
+random, allowing to send multiple data from different nodes
+without overlap. Notice that the generation of these pseudo-random
+numbers is expensive (1e-5 sec/number), meaning that it could
+slow down the runtime of your algorithm.
+This value must match the one passed to <a class="reference internal" href="#tensordict.LazyStackedTensorDict.send" title="tensordict.LazyStackedTensorDict.send"><code class="xref py py-func docutils literal notranslate"><span class="pre">send()</span></code></a>.
+Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="tensordict.LazyStackedTensorDict.rename_key">
 <span class="sig-name descname"><span class="pre">rename_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">old_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">safe</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">TensorDictBase</span></span></span><a class="headerlink" href="#tensordict.LazyStackedTensorDict.rename_key" title="Permalink to this definition">¶</a></dt>
 <dd><p>Renames a key with a new string.</p>
@@ -1057,6 +1256,87 @@ will return an error or not. Default: <a class="reference external" href="https:
 <dd class="field-even"><p>A new tensordict with the selected keys only.</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tensordict.LazyStackedTensorDict.send">
+<span class="sig-name descname"><span class="pre">send</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dst</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_tag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pseudo_rand</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tensordict.LazyStackedTensorDict.send" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends the content of a tensordict to a distant worker.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dst</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – the rank of the destination worker where the content
+should be sent.</p></li>
+<li><p><strong>init_tag</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – the initial tag to be used to mark the tensors.
+Note that this will be incremented by as much as the number of
+tensors contained in the TensorDict.</p></li>
+<li><p><strong>pseudo_rand</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – if True, the sequence of tags will be pseudo-
+random, allowing to send multiple data from different nodes
+without overlap. Notice that the generation of these pseudo-random
+numbers is expensive (1e-5 sec/number), meaning that it could
+slow down the runtime of your algorithm.
+Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">multiprocessing</span> <span class="k">as</span> <span class="n">mp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">tensordict</span> <span class="kn">import</span> <span class="n">TensorDict</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">client</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="n">torch</span><span class="o">.</span><span class="n">distributed</span><span class="o">.</span><span class="n">init_process_group</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="s2">&quot;gloo&quot;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">rank</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">world_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">init_method</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;tcp://localhost:10003&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="n">td</span> <span class="o">=</span> <span class="n">TensorDict</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="p">{</span>
+<span class="gp">... </span>            <span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">):</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+<span class="gp">... </span>            <span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+<span class="gp">... </span>            <span class="s2">&quot;_&quot;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+<span class="gp">... </span>        <span class="p">},</span>
+<span class="gp">... </span>        <span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">)</span>
+<span class="gp">... </span>    <span class="n">td</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">server</span><span class="p">(</span><span class="n">queue</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">torch</span><span class="o">.</span><span class="n">distributed</span><span class="o">.</span><span class="n">init_process_group</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="s2">&quot;gloo&quot;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">rank</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">world_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">init_method</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;tcp://localhost:10003&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="p">)</span>
+<span class="gp">... </span>    <span class="n">td</span> <span class="o">=</span> <span class="n">TensorDict</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="p">{</span>
+<span class="gp">... </span>            <span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">):</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+<span class="gp">... </span>            <span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+<span class="gp">... </span>            <span class="s2">&quot;_&quot;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+<span class="gp">... </span>        <span class="p">},</span>
+<span class="gp">... </span>        <span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">)</span>
+<span class="gp">... </span>    <span class="n">td</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="p">(</span><span class="n">td</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="n">queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;yuppie&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="vm">__name__</span><span class="o">==</span><span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">queue</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">Queue</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">main_worker</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">server</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">queue</span><span class="p">,))</span>
+<span class="gp">... </span>    <span class="n">secondary_worker</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">client</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="n">main_worker</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="n">secondary_worker</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="n">out</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="n">out</span> <span class="o">==</span> <span class="s2">&quot;yuppie&quot;</span>
+<span class="gp">... </span>    <span class="n">main_worker</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="n">secondary_worker</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -1446,13 +1726,16 @@ tensor) dict should be cloned before being set. Default is
 <li><a class="reference internal" href="#tensordict.LazyStackedTensorDict.expand"><code class="docutils literal notranslate"><span class="pre">LazyStackedTensorDict.expand()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.LazyStackedTensorDict.fill_"><code class="docutils literal notranslate"><span class="pre">LazyStackedTensorDict.fill_()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.LazyStackedTensorDict.gather"><code class="docutils literal notranslate"><span class="pre">LazyStackedTensorDict.gather()</span></code></a></li>
+<li><a class="reference internal" href="#tensordict.LazyStackedTensorDict.gather_and_stack"><code class="docutils literal notranslate"><span class="pre">LazyStackedTensorDict.gather_and_stack()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.LazyStackedTensorDict.get"><code class="docutils literal notranslate"><span class="pre">LazyStackedTensorDict.get()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.LazyStackedTensorDict.get_at"><code class="docutils literal notranslate"><span class="pre">LazyStackedTensorDict.get_at()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.LazyStackedTensorDict.get_sub_tensordict"><code class="docutils literal notranslate"><span class="pre">LazyStackedTensorDict.get_sub_tensordict()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.LazyStackedTensorDict.insert"><code class="docutils literal notranslate"><span class="pre">LazyStackedTensorDict.insert()</span></code></a></li>
+<li><a class="reference internal" href="#tensordict.LazyStackedTensorDict.irecv"><code class="docutils literal notranslate"><span class="pre">LazyStackedTensorDict.irecv()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.LazyStackedTensorDict.is_contiguous"><code class="docutils literal notranslate"><span class="pre">LazyStackedTensorDict.is_contiguous()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.LazyStackedTensorDict.is_memmap"><code class="docutils literal notranslate"><span class="pre">LazyStackedTensorDict.is_memmap()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.LazyStackedTensorDict.is_shared"><code class="docutils literal notranslate"><span class="pre">LazyStackedTensorDict.is_shared()</span></code></a></li>
+<li><a class="reference internal" href="#tensordict.LazyStackedTensorDict.isend"><code class="docutils literal notranslate"><span class="pre">LazyStackedTensorDict.isend()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.LazyStackedTensorDict.items"><code class="docutils literal notranslate"><span class="pre">LazyStackedTensorDict.items()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.LazyStackedTensorDict.keys"><code class="docutils literal notranslate"><span class="pre">LazyStackedTensorDict.keys()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.LazyStackedTensorDict.masked_fill"><code class="docutils literal notranslate"><span class="pre">LazyStackedTensorDict.masked_fill()</span></code></a></li>
@@ -1463,9 +1746,11 @@ tensor) dict should be cloned before being set. Default is
 <li><a class="reference internal" href="#tensordict.LazyStackedTensorDict.numel"><code class="docutils literal notranslate"><span class="pre">LazyStackedTensorDict.numel()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.LazyStackedTensorDict.permute"><code class="docutils literal notranslate"><span class="pre">LazyStackedTensorDict.permute()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.LazyStackedTensorDict.pin_memory"><code class="docutils literal notranslate"><span class="pre">LazyStackedTensorDict.pin_memory()</span></code></a></li>
+<li><a class="reference internal" href="#tensordict.LazyStackedTensorDict.recv"><code class="docutils literal notranslate"><span class="pre">LazyStackedTensorDict.recv()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.LazyStackedTensorDict.rename_key"><code class="docutils literal notranslate"><span class="pre">LazyStackedTensorDict.rename_key()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.LazyStackedTensorDict.reshape"><code class="docutils literal notranslate"><span class="pre">LazyStackedTensorDict.reshape()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.LazyStackedTensorDict.select"><code class="docutils literal notranslate"><span class="pre">LazyStackedTensorDict.select()</span></code></a></li>
+<li><a class="reference internal" href="#tensordict.LazyStackedTensorDict.send"><code class="docutils literal notranslate"><span class="pre">LazyStackedTensorDict.send()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.LazyStackedTensorDict.set"><code class="docutils literal notranslate"><span class="pre">LazyStackedTensorDict.set()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.LazyStackedTensorDict.set_"><code class="docutils literal notranslate"><span class="pre">LazyStackedTensorDict.set_()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.LazyStackedTensorDict.set_at_"><code class="docutils literal notranslate"><span class="pre">LazyStackedTensorDict.set_at_()</span></code></a></li>
