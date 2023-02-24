@@ -218,7 +218,7 @@
               
               
                 <div class="version">
-                  main (0.0.2b+16c4473 )
+                  main (0.0.2b+b4e5036 )
                 </div>
               
             
@@ -1436,6 +1436,15 @@ because cross-process identity is not guaranteed anymore.</p>
 <p>If dim is not specified, returns the batch_size (or shape) of the TensorDict.</p>
 </dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py" id="tensordict.TensorDict.sorted_keys">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sorted_keys</span></span><a class="headerlink" href="#tensordict.TensorDict.sorted_keys" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the keys sorted in alphabetical order.</p>
+<p>Does not support extra argument.</p>
+<p>If the TensorDict is locked, the keys are cached until the tensordict
+is unlocked.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="tensordict.TensorDict.split">
 <span class="sig-name descname"><span class="pre">split</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">split_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><span class="pre">TensorDictBase</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#tensordict.TensorDict.split" title="Permalink to this definition">¶</a></dt>
@@ -1748,6 +1757,7 @@ tensor) dict should be cloned before being set. Default is
 <li><a class="reference internal" href="#tensordict.TensorDict.shape"><code class="docutils literal notranslate"><span class="pre">TensorDict.shape</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.TensorDict.share_memory_"><code class="docutils literal notranslate"><span class="pre">TensorDict.share_memory_()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.TensorDict.size"><code class="docutils literal notranslate"><span class="pre">TensorDict.size()</span></code></a></li>
+<li><a class="reference internal" href="#tensordict.TensorDict.sorted_keys"><code class="docutils literal notranslate"><span class="pre">TensorDict.sorted_keys</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.TensorDict.split"><code class="docutils literal notranslate"><span class="pre">TensorDict.split()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.TensorDict.squeeze"><code class="docutils literal notranslate"><span class="pre">TensorDict.squeeze()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.TensorDict.to"><code class="docutils literal notranslate"><span class="pre">TensorDict.to()</span></code></a></li>
