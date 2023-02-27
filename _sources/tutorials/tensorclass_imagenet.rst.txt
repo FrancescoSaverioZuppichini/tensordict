@@ -364,8 +364,8 @@ allows us to save repeated computation later during training.
 
  .. code-block:: none
 
-      0%|          | 0/244 [00:00<?, ?it/s]     26%|##6       | 64/244 [00:00<00:02, 81.56it/s]    100%|##########| 244/244 [00:00<00:00, 283.96it/s]
-      0%|          | 0/153 [00:00<?, ?it/s]     42%|####1     | 64/153 [00:00<00:00, 97.95it/s]     84%|########3 | 128/153 [00:00<00:00, 184.53it/s]    100%|##########| 153/153 [00:00<00:00, 185.37it/s]
+      0%|          | 0/244 [00:00<?, ?it/s]     26%|##6       | 64/244 [00:00<00:01, 91.68it/s]    100%|##########| 244/244 [00:00<00:00, 323.85it/s]
+      0%|          | 0/153 [00:00<?, ?it/s]     42%|####1     | 64/153 [00:00<00:00, 117.02it/s]    100%|##########| 153/153 [00:00<00:00, 270.05it/s]    100%|##########| 153/153 [00:00<00:00, 225.17it/s]
 
 
 
@@ -492,7 +492,7 @@ starting the dataloader can take some time).
 
  .. code-block:: none
 
-    One iteration over dataloader done! Rate: 322.5531 fps, time:  0.6821s
+    One iteration over dataloader done! Rate: 380.5873 fps, time:  0.5781s
 
 
 
@@ -528,7 +528,7 @@ transformations to the batched images.
 
  .. code-block:: none
 
-    One iteration over tensorclass dataloader done! Rate: 680.1507 fps, time:  0.3235s
+    One iteration over tensorclass dataloader done! Rate: 856.6455 fps, time:  0.2568s
 
 
 
@@ -577,8 +577,8 @@ need for additional transformations as we load from disk.
 
  .. code-block:: none
 
-    One iteration over val data done! Rate: 251.2429 fps, time:  0.5134s
-    One iteration over tensorclass val data done! Rate: 6257.2594 fps, time:  0.0206s
+    One iteration over val data done! Rate: 318.8882 fps, time:  0.4045s
+    One iteration over tensorclass val data done! Rate: 7971.6123 fps, time:  0.0162s
 
 
 
@@ -615,7 +615,7 @@ for an example of how this could work.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  3.984 seconds)
+   **Total running time of the script:** ( 0 minutes  3.296 seconds)
 
 
 .. _sphx_glr_download_tutorials_tensorclass_imagenet.py:
