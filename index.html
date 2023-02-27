@@ -36,7 +36,7 @@
   <link rel="stylesheet" href="_static/sg_gallery-rendered-html.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Using TensorDict for datasets" href="tutorials/data_fashion.html" />
+    <link rel="next" title="Manipulating the shape of a TensorDict" href="tutorials/tensordict_shapes.html" />
   <!-- Google Analytics -->
   
   <!-- End Google Analytics -->
@@ -217,7 +217,7 @@
               
               
                 <div class="version">
-                  main (0.0.2b+e4a206f )
+                  main (0.0.2b+1bb0da3 )
                 </div>
               
             
@@ -246,6 +246,17 @@
             
             
               <ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/tensordict_shapes.html">Manipulating the shape of a TensorDict</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/tensordict_slicing.html">Slicing, Indexing, and Masking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/tensordict_keys.html">Manipulating the keys of a TensorDict</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/tensordict_preallocation.html">Pre-allocating memory with TensorDict</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/tensordict_memory.html">Simplifying PyTorch Memory Management with TensorDict</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/tensordict_module.html">TensorDictModule</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/tensordict_module_functional.html">Functionalizing TensorDictModule</a></li>
+</ul>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/data_fashion.html">Using TensorDict for datasets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/tensorclass_fashion.html">Using tensorclasses for datasets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/tensorclass_imagenet.html">Batched data loading with tensorclasses</a></li>
@@ -369,29 +380,37 @@ For instance, the above example can be easily used across classification and seg
 </section>
 <section id="tutorials">
 <h1>Tutorials<a class="headerlink" href="#tutorials" title="Permalink to this heading">¶</a></h1>
+<section id="basics">
+<h2>Basics<a class="headerlink" href="#basics" title="Permalink to this heading">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/data_fashion.html">Using TensorDict for datasets</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorials/data_fashion.html#dataloaders">DataLoaders</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorials/data_fashion.html#model">Model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorials/data_fashion.html#optimizing-the-parameters">Optimizing the parameters</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/tensorclass_fashion.html">Using tensorclasses for datasets</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorials/tensorclass_fashion.html#dataloaders">DataLoaders</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorials/tensorclass_fashion.html#model">Model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorials/tensorclass_fashion.html#optimizing-the-parameters">Optimizing the parameters</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/tensorclass_imagenet.html">Batched data loading with tensorclasses</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorials/tensorclass_imagenet.html#transforms">Transforms</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorials/tensorclass_imagenet.html#representing-data-with-a-tensorclass">Representing data with a TensorClass</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorials/tensorclass_imagenet.html#dataloaders">DataLoaders</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorials/tensorclass_imagenet.html#results-from-imagenet">Results from ImageNet</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/tensordict_shapes.html">Manipulating the shape of a TensorDict</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/tensordict_slicing.html">Slicing, Indexing, and Masking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/tensordict_keys.html">Manipulating the keys of a TensorDict</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/tensordict_preallocation.html">Pre-allocating memory with TensorDict</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/tensordict_memory.html">Simplifying PyTorch Memory Management with TensorDict</a></li>
 </ul>
 </div>
+</section>
+<section id="tensordict-nn">
+<h2>tensordict.nn<a class="headerlink" href="#tensordict-nn" title="Permalink to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/tensordict_module.html">TensorDictModule</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/tensordict_module_functional.html">Functionalizing TensorDictModule</a></li>
+</ul>
+</div>
+</section>
+<section id="dataloading">
+<h2>Dataloading<a class="headerlink" href="#dataloading" title="Permalink to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/data_fashion.html">Using TensorDict for datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/tensorclass_fashion.html">Using tensorclasses for datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/tensorclass_imagenet.html">Batched data loading with tensorclasses</a></li>
+</ul>
+</div>
+</section>
 </section>
 <section id="contents">
 <h1>Contents<a class="headerlink" href="#contents" title="Permalink to this heading">¶</a></h1>
@@ -470,7 +489,7 @@ For instance, the above example can be easily used across classification and seg
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="tutorials/data_fashion.html" class="btn btn-neutral float-right" title="Using TensorDict for datasets" accesskey="n" rel="next">Next <img src="_static/images/chevron-right-orange.svg" class="next-page"></a>
+        <a href="tutorials/tensordict_shapes.html" class="btn btn-neutral float-right" title="Manipulating the shape of a TensorDict" accesskey="n" rel="next">Next <img src="_static/images/chevron-right-orange.svg" class="next-page"></a>
       
       
     </div>
@@ -504,7 +523,12 @@ For instance, the above example can be easily used across classification and seg
             <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
               <ul>
 <li><a class="reference internal" href="#">Welcome to the TensorDict Documentation!</a></li>
-<li><a class="reference internal" href="#tutorials">Tutorials</a></li>
+<li><a class="reference internal" href="#tutorials">Tutorials</a><ul>
+<li><a class="reference internal" href="#basics">Basics</a></li>
+<li><a class="reference internal" href="#tensordict-nn">tensordict.nn</a></li>
+<li><a class="reference internal" href="#dataloading">Dataloading</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#contents">Contents</a></li>
 <li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
 </ul>

@@ -21,7 +21,7 @@
 Batched data loading with tensorclasses
 =======================================
 
-.. GENERATED FROM PYTHON SOURCE LINES 8-32
+.. GENERATED FROM PYTHON SOURCE LINES 8-33
 
 In this tutorial we demonstrate how tensorclasses and memory-mapped
 tensors can be used together to efficiently and transparently load data
@@ -42,13 +42,14 @@ We’ll use the same subset of imagenet used in `this transfer learning
 tutorial <https://pytorch.org/tutorials/beginner/transfer_learning_tutorial.html>`__,
 though we also give results of our experiments running the same code on ImageNet.
 
-.. note:: Download the data from
-  `here <https://download.pytorch.org/tutorial/hymenoptera_data.zip>`__
+.. note::
+
+  Download the data from `here <https://download.pytorch.org/tutorial/hymenoptera_data.zip>`__
   and extract it. We assume in this tutorial that the extracted data is
   saved in the subdirectory ``data/``.
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-51
+.. GENERATED FROM PYTHON SOURCE LINES 33-52
 
 .. code-block:: default
 
@@ -84,7 +85,7 @@ though we also give results of our experiments running the same code on ImageNet
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 62-68
+.. GENERATED FROM PYTHON SOURCE LINES 63-69
 
 Transforms
 ----------
@@ -93,7 +94,7 @@ val examples respectively. Note that there are random components in the
 train transform to prevent overfitting to training data over multiple
 epochs.
 
-.. GENERATED FROM PYTHON SOURCE LINES 68-87
+.. GENERATED FROM PYTHON SOURCE LINES 69-88
 
 .. code-block:: default
 
@@ -123,12 +124,12 @@ epochs.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 88-90
+.. GENERATED FROM PYTHON SOURCE LINES 89-91
 
 We use ``torchvision.datasets.ImageFolder`` to conveniently load and
 transform the data from disk.
 
-.. GENERATED FROM PYTHON SOURCE LINES 90-96
+.. GENERATED FROM PYTHON SOURCE LINES 91-97
 
 .. code-block:: default
 
@@ -145,7 +146,7 @@ transform the data from disk.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 107-113
+.. GENERATED FROM PYTHON SOURCE LINES 108-114
 
 We’ll also create a dataset of the raw training data that simply resizes
 the image to a common size and converts to tensor. We’ll use this to
@@ -154,7 +155,7 @@ need to be different each time we iterate through the data, so they
 cannot be pre-computed. We also do not scale the data yet so that we can set the
 ``dtype`` of the memory-mapped array to ``uint8`` and save space.
 
-.. GENERATED FROM PYTHON SOURCE LINES 113-122
+.. GENERATED FROM PYTHON SOURCE LINES 114-123
 
 .. code-block:: default
 
@@ -174,14 +175,14 @@ cannot be pre-computed. We also do not scale the data yet so that we can set the
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 127-131
+.. GENERATED FROM PYTHON SOURCE LINES 128-132
 
 Since we'll be loading our data in batches, we write a few custom transformations
 that take advantage of this, and apply the transformations in a vectorized way.
 
 First a transformation that can be used for normalization.
 
-.. GENERATED FROM PYTHON SOURCE LINES 131-143
+.. GENERATED FROM PYTHON SOURCE LINES 132-144
 
 .. code-block:: default
 
@@ -204,11 +205,11 @@ First a transformation that can be used for normalization.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 144-145
+.. GENERATED FROM PYTHON SOURCE LINES 145-146
 
 Next two transformations that can be used to randomly crop and flip the images.
 
-.. GENERATED FROM PYTHON SOURCE LINES 145-176
+.. GENERATED FROM PYTHON SOURCE LINES 146-177
 
 .. code-block:: default
 
@@ -250,7 +251,7 @@ Next two transformations that can be used to randomly crop and flip the images.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 177-182
+.. GENERATED FROM PYTHON SOURCE LINES 178-183
 
 When each batch is loaded, we will scale it, then randomly crop and flip. The random
 transformations cannot be pre-applied as they must differ each time we iterate over
@@ -258,7 +259,7 @@ the data. The scaling could be pre-applied in principle, but by waiting until we
 the data into RAM, we are able to set the dtype of the memory-mapped array to
 ``uint8``, a significant space saving over ``float32``.
 
-.. GENERATED FROM PYTHON SOURCE LINES 182-192
+.. GENERATED FROM PYTHON SOURCE LINES 183-193
 
 .. code-block:: default
 
@@ -279,7 +280,7 @@ the data into RAM, we are able to set the dtype of the memory-mapped array to
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 193-205
+.. GENERATED FROM PYTHON SOURCE LINES 194-206
 
 Representing data with a TensorClass
 ------------------------------------
@@ -294,7 +295,7 @@ and creates a tensorclass containing the data by iterating over the
 dataset. We create memory-mapped tensors to hold the data so that they
 can be efficiently loaded in batches later.
 
-.. GENERATED FROM PYTHON SOURCE LINES 205-241
+.. GENERATED FROM PYTHON SOURCE LINES 206-242
 
 .. code-block:: default
 
@@ -341,13 +342,13 @@ can be efficiently loaded in batches later.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 242-245
+.. GENERATED FROM PYTHON SOURCE LINES 243-246
 
 We create two tensorclasses, one for the training and on for the
 validation data. Note that while this step can be slightly expensive, it
 allows us to save repeated computation later during training.
 
-.. GENERATED FROM PYTHON SOURCE LINES 245-249
+.. GENERATED FROM PYTHON SOURCE LINES 246-250
 
 .. code-block:: default
 
@@ -363,15 +364,13 @@ allows us to save repeated computation later during training.
 
  .. code-block:: none
 
-    /usr/share/miniconda/envs/build_docs/lib/python3.9/site-packages/torch/utils/data/dataloader.py:554: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
-      warnings.warn(_create_warning_msg(
-      0%|          | 0/244 [00:00<?, ?it/s]     26%|##6       | 64/244 [00:00<00:02, 88.78it/s]    100%|##########| 244/244 [00:00<00:00, 371.78it/s]    100%|##########| 244/244 [00:00<00:00, 288.98it/s]
-      0%|          | 0/153 [00:00<?, ?it/s]     42%|####1     | 64/153 [00:00<00:00, 109.56it/s]     84%|########3 | 128/153 [00:00<00:00, 197.77it/s]    100%|##########| 153/153 [00:00<00:00, 200.67it/s]
+      0%|          | 0/244 [00:00<?, ?it/s]     26%|##6       | 64/244 [00:00<00:01, 104.05it/s]    100%|##########| 244/244 [00:00<00:00, 346.21it/s]
+      0%|          | 0/153 [00:00<?, ?it/s]     42%|####1     | 64/153 [00:00<00:00, 117.60it/s]    100%|##########| 153/153 [00:00<00:00, 258.62it/s]
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 250-262
+.. GENERATED FROM PYTHON SOURCE LINES 251-263
 
 DataLoaders
 -----------
@@ -386,7 +385,7 @@ Since tensorclasses implement ``__len__`` and ``__getitem__`` (and also
 Since the TensorClass data will be loaded in batches, we need to specify how these
 batches should be collated. For this we write the following helper class
 
-.. GENERATED FROM PYTHON SOURCE LINES 262-282
+.. GENERATED FROM PYTHON SOURCE LINES 263-283
 
 .. code-block:: default
 
@@ -417,7 +416,7 @@ batches should be collated. For this we write the following helper class
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 283-290
+.. GENERATED FROM PYTHON SOURCE LINES 284-291
 
 ``DataLoader`` has support for multiple workers loading data in parallel. The
 tensorclass dataloader will use just one worker, but load data in batches.
@@ -427,7 +426,7 @@ making it transparent and easy to implement. But this approach also offers
 flexibility, for example, if needed we could move the collation step into the training
 loop by considering the ``Collate`` module as part of the model.
 
-.. GENERATED FROM PYTHON SOURCE LINES 290-314
+.. GENERATED FROM PYTHON SOURCE LINES 291-315
 
 .. code-block:: default
 
@@ -459,17 +458,10 @@ loop by considering the ``Collate`` module as part of the model.
 
 
 
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    /usr/share/miniconda/envs/build_docs/lib/python3.9/site-packages/torch/utils/data/dataloader.py:554: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
-      warnings.warn(_create_warning_msg(
 
 
 
-
-.. GENERATED FROM PYTHON SOURCE LINES 319-324
+.. GENERATED FROM PYTHON SOURCE LINES 320-325
 
 We can now compare how long it takes to iterate once over the data in
 each case. The regular dataloader loads images one by one from disk,
@@ -477,7 +469,7 @@ applies the transform sequentially and then stacks the results
 (note: we start measuring time a little after the first iteration, as
 starting the dataloader can take some time).
 
-.. GENERATED FROM PYTHON SOURCE LINES 324-335
+.. GENERATED FROM PYTHON SOURCE LINES 325-336
 
 .. code-block:: default
 
@@ -500,20 +492,18 @@ starting the dataloader can take some time).
 
  .. code-block:: none
 
-    /usr/share/miniconda/envs/build_docs/lib/python3.9/site-packages/torch/utils/data/dataloader.py:554: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
-      warnings.warn(_create_warning_msg(
-    One iteration over dataloader done! Rate: 335.4454 fps, time:  0.6558s
+    One iteration over dataloader done! Rate: 444.2379 fps, time:  0.4952s
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 336-339
+.. GENERATED FROM PYTHON SOURCE LINES 337-340
 
 Our tensorclass-based dataloader instead loads data from the
 memory-mapped tensor in batches. We then apply the batched random
 transformations to the batched images.
 
-.. GENERATED FROM PYTHON SOURCE LINES 339-352
+.. GENERATED FROM PYTHON SOURCE LINES 340-353
 
 .. code-block:: default
 
@@ -538,19 +528,19 @@ transformations to the batched images.
 
  .. code-block:: none
 
-    One iteration over tensorclass dataloader done! Rate: 655.5062 fps, time:  0.3356s
+    One iteration over tensorclass dataloader done! Rate: 968.2498 fps, time:  0.2272s
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 353-357
+.. GENERATED FROM PYTHON SOURCE LINES 354-358
 
 In the case of the validation set, we see an even bigger performance
 improvement, because there are no random transformations, so we can save
 the fully transformed data in the memory-mapped tensor, eliminating the
 need for additional transformations as we load from disk.
 
-.. GENERATED FROM PYTHON SOURCE LINES 357-382
+.. GENERATED FROM PYTHON SOURCE LINES 358-383
 
 .. code-block:: default
 
@@ -587,15 +577,13 @@ need for additional transformations as we load from disk.
 
  .. code-block:: none
 
-    /usr/share/miniconda/envs/build_docs/lib/python3.9/site-packages/torch/utils/data/dataloader.py:554: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
-      warnings.warn(_create_warning_msg(
-    One iteration over val data done! Rate: 261.6113 fps, time:  0.4931s
-    One iteration over tensorclass val data done! Rate: 5973.3409 fps, time:  0.0216s
+    One iteration over val data done! Rate: 310.8779 fps, time:  0.4150s
+    One iteration over tensorclass val data done! Rate: 9108.9954 fps, time:  0.0142s
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 383-396
+.. GENERATED FROM PYTHON SOURCE LINES 384-397
 
 Results from ImageNet
 ---------------------
@@ -605,13 +593,13 @@ We repeated the above on full-size ImageNet data, running on an AWS EC2 instance
 numbers of workers. We found that our single-threaded TensorClass approach
 out-performed the ``DataLoader`` even when we used a large number of workers.
 
-.. image:: images/imagenet-benchmark-time.png
+.. image:: /reference/generated/tutorials/media/imagenet-benchmark-time.png
    :alt: Bar chart showing runtimes of dataloaders compared with TensorClass
 
-.. image:: images/imagenet-benchmark-speed.png
+.. image:: /reference/generated/tutorials/media/imagenet-benchmark-speed.png
    :alt: Bar chart showing collection rate of dataloaders compared with TensorClass
 
-.. GENERATED FROM PYTHON SOURCE LINES 399-409
+.. GENERATED FROM PYTHON SOURCE LINES 400-410
 
 This shows that much of the overhead is coming from i/o operations rather than the
 transforms, and hence explains how the memory-mapped array helps us load data more
@@ -627,7 +615,7 @@ for an example of how this could work.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  3.815 seconds)
+   **Total running time of the script:** ( 0 minutes  3.026 seconds)
 
 
 .. _sphx_glr_download_tutorials_tensorclass_imagenet.py:
