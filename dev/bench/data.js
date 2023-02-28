@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1677517121911,
+  "lastUpdate": 1677600288003,
   "repoUrl": "https://github.com/pytorch-labs/tensordict",
   "entries": {
     "CPU Benchmark Results": [
@@ -7590,6 +7590,259 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0",
             "extra": "mean: 399.28867330000344 usec\nrounds: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "Vincent Moens",
+            "username": "vmoens",
+            "email": "vincentmoens@gmail.com"
+          },
+          "committer": {
+            "name": "GitHub",
+            "username": "web-flow",
+            "email": "noreply@github.com"
+          },
+          "id": "6290ecf9ce46a05413a4a53250cc61603b838b73",
+          "message": "[Feature] Nesting tensorclass instances in tensordicts (#249)",
+          "timestamp": "2023-02-28T16:03:04Z",
+          "url": "https://github.com/pytorch-labs/tensordict/commit/6290ecf9ce46a05413a4a53250cc61603b838b73"
+        },
+        "date": 1677600286108,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "benchmarks/common/common_ops_test.py::test_common_ops",
+            "value": 1116.150974633352,
+            "unit": "iter/sec",
+            "range": "stddev: 0",
+            "extra": "mean: 895.9361436999984 usec\nrounds: 1"
+          },
+          {
+            "name": "benchmarks/common/common_ops_test.py::test_creation",
+            "value": 172538.86593241405,
+            "unit": "iter/sec",
+            "range": "stddev: 0",
+            "extra": "mean: 5.795795599999565 usec\nrounds: 1"
+          },
+          {
+            "name": "benchmarks/common/common_ops_test.py::test_creation_empty",
+            "value": 92529.18867953615,
+            "unit": "iter/sec",
+            "range": "stddev: 0",
+            "extra": "mean: 10.807400500002018 usec\nrounds: 1"
+          },
+          {
+            "name": "benchmarks/common/common_ops_test.py::test_creation_nested_1",
+            "value": 39637.68853691297,
+            "unit": "iter/sec",
+            "range": "stddev: 0",
+            "extra": "mean: 25.228514500000188 usec\nrounds: 1"
+          },
+          {
+            "name": "benchmarks/common/common_ops_test.py::test_creation_nested_2",
+            "value": 50290.605774185045,
+            "unit": "iter/sec",
+            "range": "stddev: 0",
+            "extra": "mean: 19.884429399999703 usec\nrounds: 1"
+          },
+          {
+            "name": "benchmarks/common/common_ops_test.py::test_clone",
+            "value": 38191.574705653984,
+            "unit": "iter/sec",
+            "range": "stddev: 0",
+            "extra": "mean: 26.18378549999818 usec\nrounds: 1"
+          },
+          {
+            "name": "benchmarks/common/common_ops_test.py::test_setitem",
+            "value": 32888.808634348636,
+            "unit": "iter/sec",
+            "range": "stddev: 0",
+            "extra": "mean: 30.405479600000263 usec\nrounds: 1"
+          },
+          {
+            "name": "benchmarks/common/common_ops_test.py::test_set",
+            "value": 33850.14745530322,
+            "unit": "iter/sec",
+            "range": "stddev: 0",
+            "extra": "mean: 29.541968800000973 usec\nrounds: 1"
+          },
+          {
+            "name": "benchmarks/common/common_ops_test.py::test_set_shared",
+            "value": 7086.679144125999,
+            "unit": "iter/sec",
+            "range": "stddev: 0",
+            "extra": "mean: 141.10981739999886 usec\nrounds: 1"
+          },
+          {
+            "name": "benchmarks/common/common_ops_test.py::test_update",
+            "value": 31950.05516256973,
+            "unit": "iter/sec",
+            "range": "stddev: 0",
+            "extra": "mean: 31.298850499999276 usec\nrounds: 1"
+          },
+          {
+            "name": "benchmarks/common/common_ops_test.py::test_update_nested",
+            "value": 20983.68299577435,
+            "unit": "iter/sec",
+            "range": "stddev: 0",
+            "extra": "mean: 47.65607639999985 usec\nrounds: 1"
+          },
+          {
+            "name": "benchmarks/common/common_ops_test.py::test_set_nested",
+            "value": 26346.353323515224,
+            "unit": "iter/sec",
+            "range": "stddev: 0",
+            "extra": "mean: 37.95591699999932 usec\nrounds: 1"
+          },
+          {
+            "name": "benchmarks/common/common_ops_test.py::test_set_nested_new",
+            "value": 14919.464269370355,
+            "unit": "iter/sec",
+            "range": "stddev: 0",
+            "extra": "mean: 67.02653540000085 usec\nrounds: 1"
+          },
+          {
+            "name": "benchmarks/common/memmap_benchmarks_test.py::test_creation[device0]",
+            "value": 2242.099681513456,
+            "unit": "iter/sec",
+            "range": "stddev: 0",
+            "extra": "mean: 446.0104999992609 usec\nrounds: 1"
+          },
+          {
+            "name": "benchmarks/common/memmap_benchmarks_test.py::test_creation_from_tensor",
+            "value": 2399.9779202096292,
+            "unit": "iter/sec",
+            "range": "stddev: 0",
+            "extra": "mean: 416.6704999988724 usec\nrounds: 1"
+          },
+          {
+            "name": "benchmarks/common/memmap_benchmarks_test.py::test_add_one[memmap_tensor0]",
+            "value": 35167.209407484064,
+            "unit": "iter/sec",
+            "range": "stddev: 0",
+            "extra": "mean: 28.43558010000038 usec\nrounds: 1"
+          },
+          {
+            "name": "benchmarks/common/memmap_benchmarks_test.py::test_contiguous[memmap_tensor0]",
+            "value": 128508.30565889557,
+            "unit": "iter/sec",
+            "range": "stddev: 0",
+            "extra": "mean: 7.781598199997576 usec\nrounds: 1"
+          },
+          {
+            "name": "benchmarks/common/memmap_benchmarks_test.py::test_stack[memmap_tensor0]",
+            "value": 25400.050798952183,
+            "unit": "iter/sec",
+            "range": "stddev: 0",
+            "extra": "mean: 39.37000000178159 usec\nrounds: 1"
+          },
+          {
+            "name": "benchmarks/common/pytree_benchmarks_test.py::test_reshape_pytree",
+            "value": 28786.648494500056,
+            "unit": "iter/sec",
+            "range": "stddev: 0",
+            "extra": "mean: 34.73832669999979 usec\nrounds: 1"
+          },
+          {
+            "name": "benchmarks/common/pytree_benchmarks_test.py::test_reshape_td",
+            "value": 20438.415582385358,
+            "unit": "iter/sec",
+            "range": "stddev: 0",
+            "extra": "mean: 48.92747170000007 usec\nrounds: 1"
+          },
+          {
+            "name": "benchmarks/common/pytree_benchmarks_test.py::test_view_pytree",
+            "value": 30927.279444567226,
+            "unit": "iter/sec",
+            "range": "stddev: 0",
+            "extra": "mean: 32.33391419999805 usec\nrounds: 1"
+          },
+          {
+            "name": "benchmarks/common/pytree_benchmarks_test.py::test_view_td",
+            "value": 110949.25464014351,
+            "unit": "iter/sec",
+            "range": "stddev: 0",
+            "extra": "mean: 9.013129499999195 usec\nrounds: 1"
+          },
+          {
+            "name": "benchmarks/common/pytree_benchmarks_test.py::test_unbind_pytree",
+            "value": 30277.253442188725,
+            "unit": "iter/sec",
+            "range": "stddev: 0",
+            "extra": "mean: 33.02809490000129 usec\nrounds: 1"
+          },
+          {
+            "name": "benchmarks/common/pytree_benchmarks_test.py::test_unbind_td",
+            "value": 6834.834357734629,
+            "unit": "iter/sec",
+            "range": "stddev: 0",
+            "extra": "mean: 146.3093248000007 usec\nrounds: 1"
+          },
+          {
+            "name": "benchmarks/common/pytree_benchmarks_test.py::test_split_pytree",
+            "value": 25808.968570122284,
+            "unit": "iter/sec",
+            "range": "stddev: 0",
+            "extra": "mean: 38.74622099999954 usec\nrounds: 1"
+          },
+          {
+            "name": "benchmarks/common/pytree_benchmarks_test.py::test_split_td",
+            "value": 9102.994880673015,
+            "unit": "iter/sec",
+            "range": "stddev: 0",
+            "extra": "mean: 109.85395610000239 usec\nrounds: 1"
+          },
+          {
+            "name": "benchmarks/common/pytree_benchmarks_test.py::test_add_pytree",
+            "value": 23368.0592742414,
+            "unit": "iter/sec",
+            "range": "stddev: 0",
+            "extra": "mean: 42.793455300000005 usec\nrounds: 1"
+          },
+          {
+            "name": "benchmarks/common/pytree_benchmarks_test.py::test_add_td",
+            "value": 15468.014564305064,
+            "unit": "iter/sec",
+            "range": "stddev: 0",
+            "extra": "mean: 64.64953830000013 usec\nrounds: 1"
+          },
+          {
+            "name": "benchmarks/distributed/distributed_benchmark_test.py::test_distributed",
+            "value": 18018.018017373746,
+            "unit": "iter/sec",
+            "range": "stddev: 0",
+            "extra": "mean: 55.50000000198452 usec\nrounds: 1"
+          },
+          {
+            "name": "benchmarks/nn/functional_benchmarks_test.py::test_instantiation_functorch",
+            "value": 1251.6002569760471,
+            "unit": "iter/sec",
+            "range": "stddev: 0",
+            "extra": "mean: 798.9771450000092 usec\nrounds: 1"
+          },
+          {
+            "name": "benchmarks/nn/functional_benchmarks_test.py::test_instantiation_td",
+            "value": 13520.624996840212,
+            "unit": "iter/sec",
+            "range": "stddev: 0",
+            "extra": "mean: 73.9610779999964 usec\nrounds: 1"
+          },
+          {
+            "name": "benchmarks/nn/functional_benchmarks_test.py::test_exec_functorch",
+            "value": 2638.7439454693053,
+            "unit": "iter/sec",
+            "range": "stddev: 0",
+            "extra": "mean: 378.9681836 usec\nrounds: 1"
+          },
+          {
+            "name": "benchmarks/nn/functional_benchmarks_test.py::test_exec_td",
+            "value": 2535.815191279922,
+            "unit": "iter/sec",
+            "range": "stddev: 0",
+            "extra": "mean: 394.3505044999995 usec\nrounds: 1"
           }
         ]
       }
