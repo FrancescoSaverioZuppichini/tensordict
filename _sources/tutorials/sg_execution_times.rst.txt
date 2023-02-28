@@ -5,26 +5,26 @@
 
 Computation times
 =================
-**02:20.233** total execution time for **tutorials** files:
+**04:21.441** total execution time for **tutorials** files:
 
 +-------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_tutorials_tensorclass_fashion.py` (``tensorclass_fashion.py``)                   | 01:06.714 | 0.0 MB |
+| :ref:`sphx_glr_tutorials_data_fashion.py` (``data_fashion.py``)                                 | 02:03.994 | 0.0 MB |
 +-------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_tutorials_data_fashion.py` (``data_fashion.py``)                                 | 00:59.995 | 0.0 MB |
+| :ref:`sphx_glr_tutorials_tensorclass_fashion.py` (``tensorclass_fashion.py``)                   | 02:02.721 | 0.0 MB |
 +-------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_tutorials_tensordict_module.py` (``tensordict_module.py``)                       | 00:10.100 | 0.0 MB |
+| :ref:`sphx_glr_tutorials_tensordict_module.py` (``tensordict_module.py``)                       | 00:10.195 | 0.0 MB |
 +-------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_tutorials_tensorclass_imagenet.py` (``tensorclass_imagenet.py``)                 | 00:03.296 | 0.0 MB |
+| :ref:`sphx_glr_tutorials_tensorclass_imagenet.py` (``tensorclass_imagenet.py``)                 | 00:04.327 | 0.0 MB |
 +-------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_tutorials_tensordict_memory.py` (``tensordict_memory.py``)                       | 00:00.044 | 0.0 MB |
+| :ref:`sphx_glr_tutorials_tensordict_memory.py` (``tensordict_memory.py``)                       | 00:00.059 | 0.0 MB |
 +-------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_tutorials_tensordict_module_functional.py` (``tensordict_module_functional.py``) | 00:00.024 | 0.0 MB |
+| :ref:`sphx_glr_tutorials_tensordict_module_functional.py` (``tensordict_module_functional.py``) | 00:00.042 | 0.0 MB |
 +-------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_tutorials_tensordict_preallocation.py` (``tensordict_preallocation.py``)         | 00:00.019 | 0.0 MB |
+| :ref:`sphx_glr_tutorials_tensordict_shapes.py` (``tensordict_shapes.py``)                       | 00:00.032 | 0.0 MB |
 +-------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_tutorials_tensordict_shapes.py` (``tensordict_shapes.py``)                       | 00:00.016 | 0.0 MB |
+| :ref:`sphx_glr_tutorials_tensordict_preallocation.py` (``tensordict_preallocation.py``)         | 00:00.027 | 0.0 MB |
 +-------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_tutorials_tensordict_slicing.py` (``tensordict_slicing.py``)                     | 00:00.015 | 0.0 MB |
+| :ref:`sphx_glr_tutorials_tensordict_slicing.py` (``tensordict_slicing.py``)                     | 00:00.026 | 0.0 MB |
 +-------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_tutorials_tensordict_keys.py` (``tensordict_keys.py``)                           | 00:00.011 | 0.0 MB |
+| :ref:`sphx_glr_tutorials_tensordict_keys.py` (``tensordict_keys.py``)                           | 00:00.017 | 0.0 MB |
 +-------------------------------------------------------------------------------------------------+-----------+--------+
