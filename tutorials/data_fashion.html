@@ -218,7 +218,7 @@
               
               
                 <div class="version">
-                  main (0.0.2b+5bd6a4f )
+                  main (0.0.2b+37174f0 )
                 </div>
               
             
@@ -404,59 +404,6 @@ the image (e.g. “Bag”, “Sneaker” etc.).</p>
     <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">transform</span><span class="o">=</span><span class="n">ToTensor</span><span class="p">(),</span>
 <span class="p">)</span>
-</pre></div>
-</div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Downloading http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/train-images-idx3-ubyte.gz
-Downloading http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/train-images-idx3-ubyte.gz to data/FashionMNIST/raw/train-images-idx3-ubyte.gz
-
-  0%|          | 0/26421880 [00:00&lt;?, ?it/s]
-  0%|          | 32768/26421880 [00:00&lt;02:02, 214777.90it/s]
-  0%|          | 65536/26421880 [00:00&lt;02:04, 211054.45it/s]
-  0%|          | 131072/26421880 [00:00&lt;01:26, 305542.99it/s]
-  1%|          | 229376/26421880 [00:00&lt;01:00, 432365.25it/s]
-  2%|1         | 458752/26421880 [00:00&lt;00:32, 803404.34it/s]
-  4%|3         | 950272/26421880 [00:00&lt;00:15, 1593526.18it/s]
-  7%|7         | 1867776/26421880 [00:01&lt;00:08, 2971180.96it/s]
- 14%|#4        | 3768320/26421880 [00:01&lt;00:03, 5864227.99it/s]
- 26%|##6       | 6881280/26421880 [00:01&lt;00:01, 10206550.41it/s]
- 38%|###7      | 9961472/26421880 [00:01&lt;00:01, 13092565.24it/s]
- 49%|####9     | 13041664/26421880 [00:01&lt;00:00, 15072023.22it/s]
- 61%|######1   | 16154624/26421880 [00:01&lt;00:00, 16508663.93it/s]
- 73%|#######2  | 19234816/26421880 [00:02&lt;00:00, 17428860.98it/s]
- 84%|########4 | 22282240/26421880 [00:02&lt;00:00, 17539172.70it/s]
- 95%|#########5| 25165824/26421880 [00:02&lt;00:00, 17737022.17it/s]
-100%|##########| 26421880/26421880 [00:02&lt;00:00, 11098221.02it/s]
-Extracting data/FashionMNIST/raw/train-images-idx3-ubyte.gz to data/FashionMNIST/raw
-
-Downloading http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/train-labels-idx1-ubyte.gz
-Downloading http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/train-labels-idx1-ubyte.gz to data/FashionMNIST/raw/train-labels-idx1-ubyte.gz
-
-  0%|          | 0/29515 [00:00&lt;?, ?it/s]
-100%|##########| 29515/29515 [00:00&lt;00:00, 187283.96it/s]
-100%|##########| 29515/29515 [00:00&lt;00:00, 186784.08it/s]
-Extracting data/FashionMNIST/raw/train-labels-idx1-ubyte.gz to data/FashionMNIST/raw
-
-Downloading http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/t10k-images-idx3-ubyte.gz
-Downloading http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/t10k-images-idx3-ubyte.gz to data/FashionMNIST/raw/t10k-images-idx3-ubyte.gz
-
-  0%|          | 0/4422102 [00:00&lt;?, ?it/s]
-  1%|          | 32768/4422102 [00:00&lt;00:20, 210060.73it/s]
-  1%|1         | 65536/4422102 [00:00&lt;00:20, 208852.99it/s]
-  3%|2         | 131072/4422102 [00:00&lt;00:14, 302770.79it/s]
-  5%|5         | 229376/4422102 [00:00&lt;00:09, 430324.97it/s]
- 11%|#1        | 491520/4422102 [00:00&lt;00:04, 875080.85it/s]
- 21%|##1       | 950272/4422102 [00:00&lt;00:02, 1567047.09it/s]
- 44%|####3     | 1933312/4422102 [00:01&lt;00:00, 3093447.74it/s]
- 87%|########6 | 3833856/4422102 [00:01&lt;00:00, 5946678.41it/s]
-100%|##########| 4422102/4422102 [00:01&lt;00:00, 3500596.33it/s]
-Extracting data/FashionMNIST/raw/t10k-images-idx3-ubyte.gz to data/FashionMNIST/raw
-
-Downloading http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/t10k-labels-idx1-ubyte.gz
-Downloading http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/t10k-labels-idx1-ubyte.gz to data/FashionMNIST/raw/t10k-labels-idx1-ubyte.gz
-
-  0%|          | 0/5148 [00:00&lt;?, ?it/s]
-100%|##########| 5148/5148 [00:00&lt;00:00, 32715571.20it/s]
-Extracting data/FashionMNIST/raw/t10k-labels-idx1-ubyte.gz to data/FashionMNIST/raw
 </pre></div>
 </div>
 <p>We will create two tensordicts, one each for the training and test data. We create
@@ -695,159 +642,159 @@ adjust how we unpack the data to the more explicit key-based retrieval offered b
     is_shared=False)
 Epoch 1
 -------------------------
-loss: 2.306721 [    0/60000]
-loss: 2.293322 [ 6400/60000]
-loss: 2.277442 [12800/60000]
-loss: 2.274842 [19200/60000]
-loss: 2.256732 [25600/60000]
-loss: 2.219822 [32000/60000]
-loss: 2.231469 [38400/60000]
-loss: 2.193296 [44800/60000]
-loss: 2.197789 [51200/60000]
-loss: 2.170625 [57600/60000]
+loss: 2.308486 [    0/60000]
+loss: 2.297754 [ 6400/60000]
+loss: 2.279289 [12800/60000]
+loss: 2.267704 [19200/60000]
+loss: 2.261634 [25600/60000]
+loss: 2.222089 [32000/60000]
+loss: 2.238396 [38400/60000]
+loss: 2.198850 [44800/60000]
+loss: 2.199248 [51200/60000]
+loss: 2.163132 [57600/60000]
 Test Error:
- Accuracy: 42.9%, Avg loss: 2.163245
+ Accuracy: 48.6%, Avg loss: 2.161191
 
 Epoch 2
 -------------------------
-loss: 2.174875 [    0/60000]
-loss: 2.166989 [ 6400/60000]
-loss: 2.110595 [12800/60000]
-loss: 2.123812 [19200/60000]
-loss: 2.090667 [25600/60000]
-loss: 2.014979 [32000/60000]
-loss: 2.048352 [38400/60000]
-loss: 1.970641 [44800/60000]
-loss: 1.977806 [51200/60000]
-loss: 1.917515 [57600/60000]
+loss: 2.177960 [    0/60000]
+loss: 2.165946 [ 6400/60000]
+loss: 2.110691 [12800/60000]
+loss: 2.118062 [19200/60000]
+loss: 2.078522 [25600/60000]
+loss: 2.010653 [32000/60000]
+loss: 2.043718 [38400/60000]
+loss: 1.960121 [44800/60000]
+loss: 1.977041 [51200/60000]
+loss: 1.886284 [57600/60000]
 Test Error:
- Accuracy: 58.3%, Avg loss: 1.912010
+ Accuracy: 59.5%, Avg loss: 1.895556
 
 Epoch 3
 -------------------------
-loss: 1.948565 [    0/60000]
-loss: 1.919529 [ 6400/60000]
-loss: 1.806508 [12800/60000]
-loss: 1.835139 [19200/60000]
-loss: 1.754579 [25600/60000]
-loss: 1.686297 [32000/60000]
-loss: 1.713300 [38400/60000]
-loss: 1.613417 [44800/60000]
-loss: 1.640188 [51200/60000]
-loss: 1.539934 [57600/60000]
+loss: 1.938253 [    0/60000]
+loss: 1.905396 [ 6400/60000]
+loss: 1.793068 [12800/60000]
+loss: 1.820528 [19200/60000]
+loss: 1.723729 [25600/60000]
+loss: 1.666897 [32000/60000]
+loss: 1.692050 [38400/60000]
+loss: 1.588797 [44800/60000]
+loss: 1.626069 [51200/60000]
+loss: 1.499369 [57600/60000]
 Test Error:
- Accuracy: 60.5%, Avg loss: 1.552785
+ Accuracy: 60.0%, Avg loss: 1.529518
 
 Epoch 4
 -------------------------
-loss: 1.624208 [    0/60000]
-loss: 1.585076 [ 6400/60000]
-loss: 1.436414 [12800/60000]
-loss: 1.496417 [19200/60000]
-loss: 1.401225 [25600/60000]
-loss: 1.378240 [32000/60000]
-loss: 1.395481 [38400/60000]
-loss: 1.318537 [44800/60000]
-loss: 1.357127 [51200/60000]
-loss: 1.257741 [57600/60000]
+loss: 1.607098 [    0/60000]
+loss: 1.568690 [ 6400/60000]
+loss: 1.422712 [12800/60000]
+loss: 1.481178 [19200/60000]
+loss: 1.372266 [25600/60000]
+loss: 1.365837 [32000/60000]
+loss: 1.381691 [38400/60000]
+loss: 1.297208 [44800/60000]
+loss: 1.340862 [51200/60000]
+loss: 1.230441 [57600/60000]
 Test Error:
- Accuracy: 62.5%, Avg loss: 1.280971
+ Accuracy: 62.2%, Avg loss: 1.261412
 
 Epoch 5
 -------------------------
-loss: 1.363021 [    0/60000]
-loss: 1.339417 [ 6400/60000]
-loss: 1.176702 [12800/60000]
-loss: 1.270439 [19200/60000]
-loss: 1.163715 [25600/60000]
-loss: 1.174024 [32000/60000]
-loss: 1.194985 [38400/60000]
-loss: 1.132351 [44800/60000]
-loss: 1.176189 [51200/60000]
-loss: 1.091987 [57600/60000]
+loss: 1.344936 [    0/60000]
+loss: 1.325812 [ 6400/60000]
+loss: 1.161023 [12800/60000]
+loss: 1.260918 [19200/60000]
+loss: 1.141479 [25600/60000]
+loss: 1.167712 [32000/60000]
+loss: 1.192304 [38400/60000]
+loss: 1.114280 [44800/60000]
+loss: 1.161764 [51200/60000]
+loss: 1.071627 [57600/60000]
 Test Error:
- Accuracy: 64.2%, Avg loss: 1.109381
+ Accuracy: 64.0%, Avg loss: 1.095631
 
-TensorDict training done! time:  23.6595 s
+TensorDict training done! time:  12.4248 s
 Epoch 1
 -------------------------
-loss: 2.316797 [    0/60000]
-loss: 2.298617 [ 6400/60000]
-loss: 2.281279 [12800/60000]
-loss: 2.262160 [19200/60000]
-loss: 2.257446 [25600/60000]
-loss: 2.227259 [32000/60000]
-loss: 2.233790 [38400/60000]
-loss: 2.204375 [44800/60000]
-loss: 2.201050 [51200/60000]
-loss: 2.166159 [57600/60000]
+loss: 2.305797 [    0/60000]
+loss: 2.292019 [ 6400/60000]
+loss: 2.269571 [12800/60000]
+loss: 2.260283 [19200/60000]
+loss: 2.246671 [25600/60000]
+loss: 2.210417 [32000/60000]
+loss: 2.221908 [38400/60000]
+loss: 2.184736 [44800/60000]
+loss: 2.179454 [51200/60000]
+loss: 2.145866 [57600/60000]
 Test Error:
- Accuracy: 32.6%, Avg loss: 2.160793
+ Accuracy: 43.0%, Avg loss: 2.139609
 
 Epoch 2
 -------------------------
-loss: 2.178654 [    0/60000]
-loss: 2.169266 [ 6400/60000]
-loss: 2.109532 [12800/60000]
-loss: 2.117421 [19200/60000]
-loss: 2.087374 [25600/60000]
-loss: 2.024840 [32000/60000]
-loss: 2.055196 [38400/60000]
-loss: 1.976527 [44800/60000]
-loss: 1.975942 [51200/60000]
-loss: 1.925103 [57600/60000]
+loss: 2.157623 [    0/60000]
+loss: 2.140382 [ 6400/60000]
+loss: 2.072911 [12800/60000]
+loss: 2.085929 [19200/60000]
+loss: 2.038267 [25600/60000]
+loss: 1.972459 [32000/60000]
+loss: 2.002909 [38400/60000]
+loss: 1.917036 [44800/60000]
+loss: 1.928200 [51200/60000]
+loss: 1.844879 [57600/60000]
 Test Error:
- Accuracy: 54.7%, Avg loss: 1.910847
+ Accuracy: 56.0%, Avg loss: 1.847298
 
 Epoch 3
 -------------------------
-loss: 1.942441 [    0/60000]
-loss: 1.921592 [ 6400/60000]
-loss: 1.799922 [12800/60000]
-loss: 1.837612 [19200/60000]
-loss: 1.756032 [25600/60000]
-loss: 1.697251 [32000/60000]
-loss: 1.729051 [38400/60000]
-loss: 1.616704 [44800/60000]
-loss: 1.641292 [51200/60000]
-loss: 1.556948 [57600/60000]
+loss: 1.890277 [    0/60000]
+loss: 1.851770 [ 6400/60000]
+loss: 1.724596 [12800/60000]
+loss: 1.767912 [19200/60000]
+loss: 1.660551 [25600/60000]
+loss: 1.619986 [32000/60000]
+loss: 1.641859 [38400/60000]
+loss: 1.545386 [44800/60000]
+loss: 1.580874 [51200/60000]
+loss: 1.469141 [57600/60000]
 Test Error:
- Accuracy: 59.6%, Avg loss: 1.558554
+ Accuracy: 61.0%, Avg loss: 1.492591
 
 Epoch 4
 -------------------------
-loss: 1.617424 [    0/60000]
-loss: 1.592728 [ 6400/60000]
-loss: 1.437468 [12800/60000]
-loss: 1.511750 [19200/60000]
-loss: 1.399168 [25600/60000]
-loss: 1.385667 [32000/60000]
-loss: 1.408638 [38400/60000]
-loss: 1.318605 [44800/60000]
-loss: 1.359961 [51200/60000]
-loss: 1.261691 [57600/60000]
+loss: 1.564177 [    0/60000]
+loss: 1.529415 [ 6400/60000]
+loss: 1.377419 [12800/60000]
+loss: 1.449154 [19200/60000]
+loss: 1.332536 [25600/60000]
+loss: 1.335957 [32000/60000]
+loss: 1.346744 [38400/60000]
+loss: 1.275849 [44800/60000]
+loss: 1.319103 [51200/60000]
+loss: 1.216309 [57600/60000]
 Test Error:
- Accuracy: 62.2%, Avg loss: 1.286808
+ Accuracy: 63.1%, Avg loss: 1.243519
 
 Epoch 5
 -------------------------
-loss: 1.356742 [    0/60000]
-loss: 1.346355 [ 6400/60000]
-loss: 1.184335 [12800/60000]
-loss: 1.282818 [19200/60000]
-loss: 1.157709 [25600/60000]
-loss: 1.181916 [32000/60000]
-loss: 1.201245 [38400/60000]
-loss: 1.133370 [44800/60000]
-loss: 1.180099 [51200/60000]
-loss: 1.088010 [57600/60000]
+loss: 1.321029 [    0/60000]
+loss: 1.304489 [ 6400/60000]
+loss: 1.137854 [12800/60000]
+loss: 1.243107 [19200/60000]
+loss: 1.115470 [25600/60000]
+loss: 1.145875 [32000/60000]
+loss: 1.164685 [38400/60000]
+loss: 1.103218 [44800/60000]
+loss: 1.152970 [51200/60000]
+loss: 1.064836 [57600/60000]
 Test Error:
- Accuracy: 63.6%, Avg loss: 1.113867
+ Accuracy: 64.6%, Avg loss: 1.085171
 
-Training done! time:  71.8227 s
+Training done! time:  34.7779 s
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 2 minutes  3.994 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  58.813 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-tutorials-data-fashion-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/e87c2bc1479664c90c050249ea50d202/data_fashion.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">data_fashion.py</span></code></a></p>
@@ -925,9 +872,6 @@ Training done! time:  71.8227 s
      
        <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
          <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-         <script src="../_static/jquery.js"></script>
-         <script src="../_static/underscore.js"></script>
-         <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
          <script src="../_static/doctools.js"></script>
          <script src="../_static/sphinx_highlight.js"></script>
      

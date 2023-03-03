@@ -364,8 +364,8 @@ allows us to save repeated computation later during training.
 
  .. code-block:: none
 
-      0%|          | 0/244 [00:00<?, ?it/s]     26%|##6       | 64/244 [00:00<00:02, 73.32it/s]    100%|##########| 244/244 [00:00<00:00, 258.55it/s]
-      0%|          | 0/153 [00:00<?, ?it/s]     42%|####1     | 64/153 [00:00<00:00, 91.98it/s]     84%|########3 | 128/153 [00:00<00:00, 181.63it/s]    100%|##########| 153/153 [00:00<00:00, 180.64it/s]
+      0%|          | 0/244 [00:00<?, ?it/s]     26%|##6       | 64/244 [00:00<00:01, 92.02it/s]    100%|##########| 244/244 [00:00<00:00, 324.04it/s]
+      0%|          | 0/153 [00:00<?, ?it/s]     42%|####1     | 64/153 [00:00<00:00, 115.55it/s]    100%|##########| 153/153 [00:00<00:00, 271.76it/s]    100%|##########| 153/153 [00:00<00:00, 226.84it/s]
 
 
 
@@ -385,7 +385,7 @@ Since tensorclasses implement ``__len__`` and ``__getitem__`` (and also
 Since the TensorClass data will be loaded in batches, we need to specify how these
 batches should be collated. For this we write the following helper class
 
-.. GENERATED FROM PYTHON SOURCE LINES 263-283
+.. GENERATED FROM PYTHON SOURCE LINES 263-286
 
 .. code-block:: default
 
@@ -395,11 +395,14 @@ batches should be collated. For this we write the following helper class
         def __init__(self, transform=None, device=None):
             super().__init__()
             self.transform = transform
-            self.device = device
+            self.device = torch.device(device)
 
         def __call__(self, x: ImageNetData):
             # move data to RAM
-            out = x.apply(lambda x: x.as_tensor()).pin_memory()
+            if self.device.type == "cuda":
+                out = x.apply(lambda x: x.as_tensor()).pin_memory()
+            else:
+                out = x.apply(lambda x: x.as_tensor())
             if self.device:
                 # move data to gpu
                 out = out.to(self.device)
@@ -416,7 +419,7 @@ batches should be collated. For this we write the following helper class
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 284-291
+.. GENERATED FROM PYTHON SOURCE LINES 287-294
 
 ``DataLoader`` has support for multiple workers loading data in parallel. The
 tensorclass dataloader will use just one worker, but load data in batches.
@@ -426,7 +429,7 @@ making it transparent and easy to implement. But this approach also offers
 flexibility, for example, if needed we could move the collation step into the training
 loop by considering the ``Collate`` module as part of the model.
 
-.. GENERATED FROM PYTHON SOURCE LINES 291-315
+.. GENERATED FROM PYTHON SOURCE LINES 294-318
 
 .. code-block:: default
 
@@ -461,7 +464,7 @@ loop by considering the ``Collate`` module as part of the model.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 320-325
+.. GENERATED FROM PYTHON SOURCE LINES 323-328
 
 We can now compare how long it takes to iterate once over the data in
 each case. The regular dataloader loads images one by one from disk,
@@ -469,7 +472,7 @@ applies the transform sequentially and then stacks the results
 (note: we start measuring time a little after the first iteration, as
 starting the dataloader can take some time).
 
-.. GENERATED FROM PYTHON SOURCE LINES 325-336
+.. GENERATED FROM PYTHON SOURCE LINES 328-339
 
 .. code-block:: default
 
@@ -492,18 +495,18 @@ starting the dataloader can take some time).
 
  .. code-block:: none
 
-    One iteration over dataloader done! Rate: 276.3588 fps, time:  0.7961s
+    One iteration over dataloader done! Rate: 408.0631 fps, time:  0.5391s
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 337-340
+.. GENERATED FROM PYTHON SOURCE LINES 340-343
 
 Our tensorclass-based dataloader instead loads data from the
 memory-mapped tensor in batches. We then apply the batched random
 transformations to the batched images.
 
-.. GENERATED FROM PYTHON SOURCE LINES 340-353
+.. GENERATED FROM PYTHON SOURCE LINES 343-356
 
 .. code-block:: default
 
@@ -528,19 +531,19 @@ transformations to the batched images.
 
  .. code-block:: none
 
-    One iteration over tensorclass dataloader done! Rate: 665.0696 fps, time:  0.3308s
+    One iteration over tensorclass dataloader done! Rate: 623.5598 fps, time:  10.9564s
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 354-358
+.. GENERATED FROM PYTHON SOURCE LINES 357-361
 
 In the case of the validation set, we see an even bigger performance
 improvement, because there are no random transformations, so we can save
 the fully transformed data in the memory-mapped tensor, eliminating the
 need for additional transformations as we load from disk.
 
-.. GENERATED FROM PYTHON SOURCE LINES 358-383
+.. GENERATED FROM PYTHON SOURCE LINES 361-386
 
 .. code-block:: default
 
@@ -577,13 +580,13 @@ need for additional transformations as we load from disk.
 
  .. code-block:: none
 
-    One iteration over val data done! Rate: 227.3953 fps, time:  0.5673s
-    One iteration over tensorclass val data done! Rate: 5701.0043 fps, time:  0.0226s
+    One iteration over val data done! Rate: 361.5318 fps, time:  0.3568s
+    One iteration over tensorclass val data done! Rate: 463834.3837 fps, time:  0.0056s
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 384-397
+.. GENERATED FROM PYTHON SOURCE LINES 387-400
 
 Results from ImageNet
 ---------------------
@@ -599,7 +602,7 @@ out-performed the ``DataLoader`` even when we used a large number of workers.
 .. image:: /reference/generated/tutorials/media/imagenet-benchmark-speed.png
    :alt: Bar chart showing collection rate of dataloaders compared with TensorClass
 
-.. GENERATED FROM PYTHON SOURCE LINES 400-410
+.. GENERATED FROM PYTHON SOURCE LINES 403-413
 
 This shows that much of the overhead is coming from i/o operations rather than the
 transforms, and hence explains how the memory-mapped array helps us load data more
@@ -615,7 +618,7 @@ for an example of how this could work.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  4.327 seconds)
+   **Total running time of the script:** ( 0 minutes  15.616 seconds)
 
 
 .. _sphx_glr_download_tutorials_tensorclass_imagenet.py:

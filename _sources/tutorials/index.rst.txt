@@ -114,23 +114,6 @@ README Tutos
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Using TensorDict for datasets">
-
-.. only:: html
-
-  .. image:: /tutorials/images/thumb/sphx_glr_data_fashion_thumb.png
-    :alt: Using TensorDict for datasets
-
-  :ref:`sphx_glr_tutorials_data_fashion.py`
-
-.. raw:: html
-
-      <div class="sphx-glr-thumbnail-title">Using TensorDict for datasets</div>
-    </div>
-
-
-.. raw:: html
-
     <div class="sphx-glr-thumbcontainer" tooltip="Using tensorclasses for datasets">
 
 .. only:: html
@@ -143,6 +126,23 @@ README Tutos
 .. raw:: html
 
       <div class="sphx-glr-thumbnail-title">Using tensorclasses for datasets</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Using TensorDict for datasets">
+
+.. only:: html
+
+  .. image:: /tutorials/images/thumb/sphx_glr_data_fashion_thumb.png
+    :alt: Using TensorDict for datasets
+
+  :ref:`sphx_glr_tutorials_data_fashion.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Using TensorDict for datasets</div>
     </div>
 
 
@@ -194,8 +194,8 @@ README Tutos
    /tutorials/tensordict_module_functional
    /tutorials/tensordict_keys
    /tutorials/tensordict_shapes
-   /tutorials/data_fashion
    /tutorials/tensorclass_fashion
+   /tutorials/data_fashion
    /tutorials/tensorclass_imagenet
    /tutorials/tensordict_module
 
