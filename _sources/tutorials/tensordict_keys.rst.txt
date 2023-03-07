@@ -183,7 +183,7 @@ method.
 Renaming keys
 -------------
 To rename a key, simply use the
-:meth:`TensorDict.rename_key <tensordict.TensorDict.rename_key>` method. The value
+:meth:`TensorDict.rename_key_ <tensordict.TensorDict.rename_key_>` method. The value
 stored under the original key will remain in the :class:`~.TensorDict`, but the key
 will be changed to the specified new key.
 
@@ -192,7 +192,7 @@ will be changed to the specified new key.
 .. code-block:: default
 
 
-    tensordict.rename_key("a", "b")
+    tensordict.rename_key_("a", "b")
     assert tensordict.get("b") is a
     print(tensordict)
 
@@ -769,7 +769,7 @@ We can obtain a new :class:`~.TensorDict` with a subset of the keys by using
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.012 seconds)
+   **Total running time of the script:** ( 0 minutes  0.017 seconds)
 
 
 .. _sphx_glr_download_tutorials_tensordict_keys.py:
