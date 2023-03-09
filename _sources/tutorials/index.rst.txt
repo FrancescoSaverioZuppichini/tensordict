@@ -17,7 +17,7 @@ README Tutos
 .. only:: html
 
   .. image:: /tutorials/images/thumb/sphx_glr_tensordict_memory_thumb.png
-    :alt: Simplifying PyTorch Memory Management with TensorDict
+    :alt:
 
   :ref:`sphx_glr_tutorials_tensordict_memory.py`
 
@@ -34,7 +34,7 @@ README Tutos
 .. only:: html
 
   .. image:: /tutorials/images/thumb/sphx_glr_tensordict_preallocation_thumb.png
-    :alt: Pre-allocating memory with TensorDict
+    :alt:
 
   :ref:`sphx_glr_tutorials_tensordict_preallocation.py`
 
@@ -51,7 +51,7 @@ README Tutos
 .. only:: html
 
   .. image:: /tutorials/images/thumb/sphx_glr_tensordict_slicing_thumb.png
-    :alt: Slicing, Indexing, and Masking
+    :alt:
 
   :ref:`sphx_glr_tutorials_tensordict_slicing.py`
 
@@ -68,7 +68,7 @@ README Tutos
 .. only:: html
 
   .. image:: /tutorials/images/thumb/sphx_glr_tensordict_module_functional_thumb.png
-    :alt: Functionalizing TensorDictModule
+    :alt:
 
   :ref:`sphx_glr_tutorials_tensordict_module_functional.py`
 
@@ -85,7 +85,7 @@ README Tutos
 .. only:: html
 
   .. image:: /tutorials/images/thumb/sphx_glr_tensordict_keys_thumb.png
-    :alt: Manipulating the keys of a TensorDict
+    :alt:
 
   :ref:`sphx_glr_tutorials_tensordict_keys.py`
 
@@ -102,7 +102,7 @@ README Tutos
 .. only:: html
 
   .. image:: /tutorials/images/thumb/sphx_glr_tensordict_shapes_thumb.png
-    :alt: Manipulating the shape of a TensorDict
+    :alt:
 
   :ref:`sphx_glr_tutorials_tensordict_shapes.py`
 
@@ -119,7 +119,7 @@ README Tutos
 .. only:: html
 
   .. image:: /tutorials/images/thumb/sphx_glr_tensorclass_fashion_thumb.png
-    :alt: Using tensorclasses for datasets
+    :alt:
 
   :ref:`sphx_glr_tutorials_tensorclass_fashion.py`
 
@@ -136,7 +136,7 @@ README Tutos
 .. only:: html
 
   .. image:: /tutorials/images/thumb/sphx_glr_data_fashion_thumb.png
-    :alt: Using TensorDict for datasets
+    :alt:
 
   :ref:`sphx_glr_tutorials_data_fashion.py`
 
@@ -153,7 +153,7 @@ README Tutos
 .. only:: html
 
   .. image:: /tutorials/images/thumb/sphx_glr_tensorclass_imagenet_thumb.png
-    :alt: Batched data loading with tensorclasses
+    :alt:
 
   :ref:`sphx_glr_tutorials_tensorclass_imagenet.py`
 
@@ -170,7 +170,7 @@ README Tutos
 .. only:: html
 
   .. image:: /tutorials/images/thumb/sphx_glr_tensordict_module_thumb.png
-    :alt: TensorDictModule
+    :alt:
 
   :ref:`sphx_glr_tutorials_tensordict_module.py`
 
@@ -198,7 +198,6 @@ README Tutos
    /tutorials/data_fashion
    /tutorials/tensorclass_imagenet
    /tutorials/tensordict_module
-
 
 .. only:: html
 

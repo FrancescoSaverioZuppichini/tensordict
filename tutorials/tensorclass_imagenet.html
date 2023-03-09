@@ -218,7 +218,7 @@
               
               
                 <div class="version">
-                  main (0.0.2b+e22db6d )
+                  main (0.0.3+9d59336 )
                 </div>
               
             
@@ -363,7 +363,7 @@
               
   <div class="sphx-glr-download-link-note admonition note">
 <p class="admonition-title">Note</p>
-<p>Click <a class="reference internal" href="#sphx-glr-download-tutorials-tensorclass-imagenet-py"><span class="std std-ref">here</span></a>
+<p><a class="reference internal" href="#sphx-glr-download-tutorials-tensorclass-imagenet-py"><span class="std std-ref">Go to the end</span></a>
 to download the full example code</p>
 </div>
 <section class="sphx-glr-example-title" id="batched-data-loading-with-tensorclasses">
@@ -572,13 +572,12 @@ allows us to save repeated computation later during training.</p>
 </pre></div>
 </div>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/244 [00:00&lt;?, ?it/s]
- 26%|##6       | 64/244 [00:00&lt;00:02, 73.69it/s]
-100%|##########| 244/244 [00:00&lt;00:00, 256.17it/s]
+ 26%|##6       | 64/244 [00:00&lt;00:01, 99.94it/s]
+100%|##########| 244/244 [00:00&lt;00:00, 347.39it/s]
 
   0%|          | 0/153 [00:00&lt;?, ?it/s]
- 42%|####1     | 64/153 [00:00&lt;00:00, 93.23it/s]
- 84%|########3 | 128/153 [00:00&lt;00:00, 174.70it/s]
-100%|##########| 153/153 [00:00&lt;00:00, 177.04it/s]
+ 42%|####1     | 64/153 [00:00&lt;00:00, 118.42it/s]
+100%|##########| 153/153 [00:00&lt;00:00, 240.17it/s]
 </pre></div>
 </div>
 </section>
@@ -658,7 +657,7 @@ starting the dataloader can take some time).</p>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;One iteration over dataloader done! Rate: </span><span class="si">{</span><a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">total</span></a><span class="o">/</span><a href="https://docs.python.org/3/library/functions.html#float" title="builtins.float" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">t</span></a><span class="si">:</span><span class="s2">4.4f</span><span class="si">}</span><span class="s2"> fps, time: </span><span class="si">{</span><a href="https://docs.python.org/3/library/functions.html#float" title="builtins.float" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">t</span></a><span class="si">:</span><span class="s2"> 4.4f</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>One iteration over dataloader done! Rate: 310.2061 fps, time:  0.7092s
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>One iteration over dataloader done! Rate: 437.6759 fps, time:  0.5027s
 </pre></div>
 </div>
 <p>Our tensorclass-based dataloader instead loads data from the
@@ -677,7 +676,7 @@ transformations to the batched images.</p>
 <span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>One iteration over tensorclass dataloader done! Rate: 523.0874 fps, time:  13.0609s
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>One iteration over tensorclass dataloader done! Rate: 767.4179 fps, time:  8.9026s
 </pre></div>
 </div>
 <p>In the case of the validation set, we see an even bigger performance
@@ -709,8 +708,8 @@ need for additional transformations as we load from disk.</p>
 <span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>One iteration over val data done! Rate: 245.2459 fps, time:  0.5260s
-One iteration over tensorclass val data done! Rate: 311429.7660 fps, time:  0.0084s
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>One iteration over val data done! Rate: 335.5424 fps, time:  0.3845s
+One iteration over tensorclass val data done! Rate: 534459.3721 fps, time:  0.0049s
 </pre></div>
 </div>
 </section>
@@ -730,7 +729,7 @@ for more context about the other results from these charts.</p>
 workers to load batches from the memory-mapped array, though this comes with some
 added complexity. See <a class="reference external" href="https://github.com/pytorch-labs/tensordict/blob/main/benchmarks/distributed/dataloading.py">this example in our benchmarks</a>
 for an example of how this could work.</p>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  18.858 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  13.034 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-tutorials-tensorclass-imagenet-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/15e3378cb4356a25ae780439b1e18899/tensorclass_imagenet.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">tensorclass_imagenet.py</span></code></a></p>

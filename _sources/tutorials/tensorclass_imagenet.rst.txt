@@ -10,7 +10,7 @@
     .. note::
         :class: sphx-glr-download-link-note
 
-        Click :ref:`here <sphx_glr_download_tutorials_tensorclass_imagenet.py>`
+        :ref:`Go to the end <sphx_glr_download_tutorials_tensorclass_imagenet.py>`
         to download the full example code
 
 .. rst-class:: sphx-glr-example-title
@@ -364,8 +364,8 @@ allows us to save repeated computation later during training.
 
  .. code-block:: none
 
-      0%|          | 0/244 [00:00<?, ?it/s]     26%|##6       | 64/244 [00:00<00:02, 73.69it/s]    100%|##########| 244/244 [00:00<00:00, 256.17it/s]
-      0%|          | 0/153 [00:00<?, ?it/s]     42%|####1     | 64/153 [00:00<00:00, 93.23it/s]     84%|########3 | 128/153 [00:00<00:00, 174.70it/s]    100%|##########| 153/153 [00:00<00:00, 177.04it/s]
+      0%|          | 0/244 [00:00<?, ?it/s]     26%|##6       | 64/244 [00:00<00:01, 99.94it/s]    100%|##########| 244/244 [00:00<00:00, 347.39it/s]
+      0%|          | 0/153 [00:00<?, ?it/s]     42%|####1     | 64/153 [00:00<00:00, 118.42it/s]    100%|##########| 153/153 [00:00<00:00, 240.17it/s]
 
 
 
@@ -495,7 +495,7 @@ starting the dataloader can take some time).
 
  .. code-block:: none
 
-    One iteration over dataloader done! Rate: 310.2061 fps, time:  0.7092s
+    One iteration over dataloader done! Rate: 437.6759 fps, time:  0.5027s
 
 
 
@@ -531,7 +531,7 @@ transformations to the batched images.
 
  .. code-block:: none
 
-    One iteration over tensorclass dataloader done! Rate: 523.0874 fps, time:  13.0609s
+    One iteration over tensorclass dataloader done! Rate: 767.4179 fps, time:  8.9026s
 
 
 
@@ -580,8 +580,8 @@ need for additional transformations as we load from disk.
 
  .. code-block:: none
 
-    One iteration over val data done! Rate: 245.2459 fps, time:  0.5260s
-    One iteration over tensorclass val data done! Rate: 311429.7660 fps, time:  0.0084s
+    One iteration over val data done! Rate: 335.5424 fps, time:  0.3845s
+    One iteration over tensorclass val data done! Rate: 534459.3721 fps, time:  0.0049s
 
 
 
@@ -618,7 +618,7 @@ for an example of how this could work.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  18.858 seconds)
+   **Total running time of the script:** ( 0 minutes  13.034 seconds)
 
 
 .. _sphx_glr_download_tutorials_tensorclass_imagenet.py:
@@ -626,6 +626,8 @@ for an example of how this could work.
 .. only:: html
 
   .. container:: sphx-glr-footer sphx-glr-footer-example
+
+
 
 
     .. container:: sphx-glr-download sphx-glr-download-python
