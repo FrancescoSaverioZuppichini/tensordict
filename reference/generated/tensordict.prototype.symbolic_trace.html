@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>expand_as_right &mdash; tensordict main documentation</title>
+  <title>tensordict.prototype.symbolic_trace &mdash; tensordict main documentation</title>
   
 
   
@@ -36,8 +36,8 @@
   <link rel="stylesheet" href="../../_static/sg_gallery-rendered-html.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="expand_right" href="tensordict.utils.expand_right.html" />
-    <link rel="prev" title="MemmapTensor" href="tensordict.MemmapTensor.html" />
+    <link rel="next" title="tensordict.nn.make_tensordict" href="tensordict.nn.make_tensordict.html" />
+    <link rel="prev" title="tensordict.nn.repopulate_module" href="tensordict.nn.repopulate_module.html" />
   <!-- Google Analytics -->
   
   <!-- End Google Analytics -->
@@ -310,15 +310,15 @@
         
           <li><a href="../index.html">API Reference</a> &gt;</li>
         
-          <li><a href="../tensordict.html">tensordict package</a> &gt;</li>
+          <li><a href="../nn.html">tensordict.nn package</a> &gt;</li>
         
-      <li>expand_as_right</li>
+      <li>tensordict.prototype.symbolic_trace</li>
     
     
       <li class="pytorch-breadcrumbs-aside">
         
             
-            <a href="../../_sources/reference/generated/tensordict.utils.expand_as_right.rst.txt" rel="nofollow"><img src="../../_static/images/view-page-source-icon.svg"></a>
+            <a href="../../_sources/reference/generated/tensordict.prototype.symbolic_trace.rst.txt" rel="nofollow"><img src="../../_static/images/view-page-source-icon.svg"></a>
           
         
       </li>
@@ -339,7 +339,7 @@
 
           
           <div class="pytorch-call-to-action-links">
-            <div id="tutorial-type">reference/generated/tensordict.utils.expand_as_right</div>
+            <div id="tutorial-type">reference/generated/tensordict.prototype.symbolic_trace</div>
 
             <div id="google-colab-link">
               <img class="call-to-action-img" src="../../_static/images/pytorch-colab.svg"/>
@@ -365,30 +365,12 @@
             <div role="main" class="main-content" itemscope="itemscope" itemtype="http://schema.org/Article">
              <article itemprop="articleBody" id="pytorch-article" class="pytorch-article">
               
-  <section id="expand-as-right">
-<h1>expand_as_right<a class="headerlink" href="#expand-as-right" title="Permalink to this heading">¶</a></h1>
-<dl class="py class">
-<dt class="sig sig-object py" id="tensordict.utils.expand_as_right">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tensordict.utils.</span></span><span class="sig-name descname"><span class="pre">expand_as_right</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tensor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><span class="pre">torch.Tensor</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="tensordict.MemmapTensor.html#tensordict.MemmapTensor" title="tensordict.MemmapTensor"><span class="pre">MemmapTensor</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">TensorDictBase</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><span class="pre">torch.Tensor</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="tensordict.MemmapTensor.html#tensordict.MemmapTensor" title="tensordict.MemmapTensor"><span class="pre">MemmapTensor</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">TensorDictBase</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tensordict.utils.expand_as_right" title="Permalink to this definition">¶</a></dt>
-<dd><p>Expand a tensor on the right to match another tensor shape.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>tensor</strong> – tensor to be expanded</p></li>
-<li><p><strong>dest</strong> – tensor providing the target shape</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>a tensor with shape matching the dest input tensor shape.</p>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">dest</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">expand_as_right</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">dest</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="go">torch.Size([3,4,5])</span>
-</pre></div>
-</div>
+  <section id="tensordict-prototype-symbolic-trace">
+<h1>tensordict.prototype.symbolic_trace<a class="headerlink" href="#tensordict-prototype-symbolic-trace" title="Permalink to this heading">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="tensordict.prototype.symbolic_trace">
+<span class="sig-prename descclassname"><span class="pre">tensordict.prototype.</span></span><span class="sig-name descname"><span class="pre">symbolic_trace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">td_module</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="tensordict.nn.TensorDictModule.html#tensordict.nn.TensorDictModule" title="tensordict.nn.common.TensorDictModule"><span class="pre">TensorDictModule</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">TDGraphModule</span></span></span><a class="headerlink" href="#tensordict.prototype.symbolic_trace" title="Permalink to this definition">¶</a></dt>
+<dd><p>A symbolic tracer for TensorDictModule.</p>
 </dd></dl>
 
 </section>
@@ -401,10 +383,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="tensordict.utils.expand_right.html" class="btn btn-neutral float-right" title="expand_right" accesskey="n" rel="next">Next <img src="../../_static/images/chevron-right-orange.svg" class="next-page"></a>
+        <a href="tensordict.nn.make_tensordict.html" class="btn btn-neutral float-right" title="tensordict.nn.make_tensordict" accesskey="n" rel="next">Next <img src="../../_static/images/chevron-right-orange.svg" class="next-page"></a>
       
       
-        <a href="tensordict.MemmapTensor.html" class="btn btn-neutral" title="MemmapTensor" accesskey="p" rel="prev"><img src="../../_static/images/chevron-right-orange.svg" class="previous-page"> Previous</a>
+        <a href="tensordict.nn.repopulate_module.html" class="btn btn-neutral" title="tensordict.nn.repopulate_module" accesskey="p" rel="prev"><img src="../../_static/images/chevron-right-orange.svg" class="previous-page"> Previous</a>
       
     </div>
   
@@ -436,8 +418,8 @@
           <div class="pytorch-right-menu" id="pytorch-right-menu">
             <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
               <ul>
-<li><a class="reference internal" href="#">expand_as_right</a><ul>
-<li><a class="reference internal" href="#tensordict.utils.expand_as_right"><code class="docutils literal notranslate"><span class="pre">expand_as_right</span></code></a></li>
+<li><a class="reference internal" href="#">tensordict.prototype.symbolic_trace</a><ul>
+<li><a class="reference internal" href="#tensordict.prototype.symbolic_trace"><code class="docutils literal notranslate"><span class="pre">symbolic_trace()</span></code></a></li>
 </ul>
 </li>
 </ul>

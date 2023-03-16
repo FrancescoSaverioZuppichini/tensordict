@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>MemmapTensor &mdash; tensordict main documentation</title>
+  <title>is_tensor_collection &mdash; tensordict main documentation</title>
   
 
   
@@ -36,8 +36,8 @@
   <link rel="stylesheet" href="../../_static/sg_gallery-rendered-html.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="expand_as_right" href="tensordict.utils.expand_as_right.html" />
-    <link rel="prev" title="LazyStackedTensorDict" href="tensordict.LazyStackedTensorDict.html" />
+    <link rel="next" title="make_tensordict" href="tensordict.make_tensordict.html" />
+    <link rel="prev" title="is_batchedtensor" href="tensordict.is_batchedtensor.html" />
   <!-- Google Analytics -->
   
   <!-- End Google Analytics -->
@@ -312,13 +312,13 @@
         
           <li><a href="../tensordict.html">tensordict package</a> &gt;</li>
         
-      <li>MemmapTensor</li>
+      <li>is_tensor_collection</li>
     
     
       <li class="pytorch-breadcrumbs-aside">
         
             
-            <a href="../../_sources/reference/generated/tensordict.MemmapTensor.rst.txt" rel="nofollow"><img src="../../_static/images/view-page-source-icon.svg"></a>
+            <a href="../../_sources/reference/generated/tensordict.is_tensor_collection.rst.txt" rel="nofollow"><img src="../../_static/images/view-page-source-icon.svg"></a>
           
         
       </li>
@@ -339,7 +339,7 @@
 
           
           <div class="pytorch-call-to-action-links">
-            <div id="tutorial-type">reference/generated/tensordict.MemmapTensor</div>
+            <div id="tutorial-type">reference/generated/tensordict.is_tensor_collection</div>
 
             <div id="google-colab-link">
               <img class="call-to-action-img" src="../../_static/images/pytorch-colab.svg"/>
@@ -365,167 +365,29 @@
             <div role="main" class="main-content" itemscope="itemscope" itemtype="http://schema.org/Article">
              <article itemprop="articleBody" id="pytorch-article" class="pytorch-article">
               
-  <section id="memmaptensor">
-<h1>MemmapTensor<a class="headerlink" href="#memmaptensor" title="Permalink to this heading">¶</a></h1>
+  <section id="is-tensor-collection">
+<h1>is_tensor_collection<a class="headerlink" href="#is-tensor-collection" title="Permalink to this heading">¶</a></h1>
 <dl class="py class">
-<dt class="sig sig-object py" id="tensordict.MemmapTensor">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tensordict.</span></span><span class="sig-name descname"><span class="pre">MemmapTensor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DeviceType</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://pytorch.org/docs/stable/tensor_attributes.html#torch.dtype" title="(in PyTorch v2.0)"><span class="pre">torch.dtype</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transfer_ownership</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'r+'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tensordict.MemmapTensor" title="Permalink to this definition">¶</a></dt>
-<dd><p>A torch.tensor interface with a np.memmap array.</p>
-<p>A temporary file is created and cleared once the object is out-of-scope.
-This class is aimed at being used for data transfer in between processes
-and remote workers that have access to
-a common storage, and as such it supports serialization and
-deserialization. It is possible to choose if the ownership is
-transferred upon serialization / deserialization: If ownership is not
-transferred (transfer_ownership=False, default), then the process where
-the MemmapTensor was created will be responsible of clearing it once it
-gets out of scope (in that process). Otherwise, the process that
-deserialize the MemmapTensor will be responsible of clearing the files
-once the object is out of scope.</p>
-<p>Supports (almost) all tensor operations.</p>
+<dt class="sig sig-object py" id="tensordict.is_tensor_collection">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tensordict.</span></span><span class="sig-name descname"><span class="pre">is_tensor_collection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">datatype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.11)"><span class="pre">type</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tensordict.is_tensor_collection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if a data object or a type is a tensor container from the tensordict lib.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>*tensor_or_size</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><em>torch.Tensor</em></a><em>, </em><a class="reference internal" href="#tensordict.MemmapTensor" title="tensordict.MemmapTensor"><em>MemmapTensor</em></a><em>, </em><em>torch.Size</em><em> or </em><em>sequence</em><em> of </em><em>integers</em>) – If a size is provided (with a sequence of integers, a torch.Size object
-or a list/tuple of integers) it indicates the size of the MemmapTensor created.
-If a te is provided, its content will be stored on physical storage.
-If MemmapTensor, a new MemmapTensor is created and the same data is stored in it.</p></li>
-<li><p><strong>device</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensor_attributes.html#torch.device" title="(in PyTorch v2.0)"><em>torch.device</em></a><em> or </em><em>equivalent</em><em>, </em><em>optional</em>) – device where the loaded
-tensor will be sent. This should not be used with MemmapTensors
-created from torch.Tensor objects. Default is “cpu”.</p></li>
-<li><p><strong>dtype</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensor_attributes.html#torch.dtype" title="(in PyTorch v2.0)"><em>torch.dtype</em></a><em>, </em><em>optional</em>) – dtype of the loaded tensor.
-This should not be used with MemmapTensors created from torch.Tensor
-objects. Default is <code class="xref py py-obj docutils literal notranslate"><span class="pre">torch.get_default_dtype()</span></code>.</p></li>
-<li><p><strong>transfer_ownership</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – affects the ownership after serialization:
-if True, the current process looses ownership immediately after
-serialization. If False, the current process keeps the ownership
-of the temporary file.
-Default: False.</p></li>
-<li><p><strong>prefix</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> or </em><em>path</em><em>, </em><em>optional</em>) – <em>Deprecated</em> prefix of the file location. Should
-not be specified together with prefix.</p></li>
-<li><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> or </em><em>path</em><em>, </em><em>optional</em>) – location of the underlying memory-map. Should
-not be specified together with prefix.</p></li>
-</ul>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if the input is a TensorDictBase subclass, a tensorclass or an istance of these.
+<code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x_memmap</span> <span class="o">=</span> <span class="n">MemmapTensor</span><span class="o">.</span><span class="n">from_tensor</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># indexing</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x0</span> <span class="o">=</span> <span class="n">x_memmap</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x0</span><span class="p">[:]</span> <span class="o">=</span> <span class="mi">2</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="p">(</span><span class="n">x_memmap</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
-<span class="go">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># device</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;cuda:0&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x_memmap</span> <span class="o">=</span> <span class="n">MemmapTensor</span><span class="o">.</span><span class="n">from_tensor</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="p">(</span><span class="n">x_memmap</span><span class="o">.</span><span class="n">clone</span><span class="p">())</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;cuda:0&#39;</span><span class="p">)</span>
-<span class="go">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># operations</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="p">(</span><span class="n">x_memmap</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">==</span> <span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="p">(</span><span class="n">x_memmap</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">==</span> <span class="n">x</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="p">(</span><span class="n">x_memmap</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">==</span> <span class="n">x</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
-<span class="go">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># temp file clearance</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">filename</span> <span class="o">=</span> <span class="n">x_memmap</span><span class="o">.</span><span class="n">filename</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">x_memmap</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">is_tensor_collection</span><span class="p">(</span><span class="n">TensorDictBase</span><span class="p">)</span>  <span class="c1"># True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">is_tensor_collection</span><span class="p">(</span><span class="n">TensorDict</span><span class="p">({},</span> <span class="p">[]))</span>  <span class="c1"># True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@tensorclass</span>
+<span class="gp">... </span><span class="k">class</span> <span class="nc">MyClass</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">pass</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">is_tensor_collection</span><span class="p">(</span><span class="n">MyClass</span><span class="p">)</span>  <span class="c1"># True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">is_tensor_collection</span><span class="p">(</span><span class="n">MyClass</span><span class="p">(</span><span class="n">batch_size</span><span class="o">=</span><span class="p">[]))</span>  <span class="c1"># True</span>
 </pre></div>
 </div>
-<dl class="py method">
-<dt class="sig sig-object py" id="tensordict.MemmapTensor.as_tensor">
-<span class="sig-name descname"><span class="pre">as_tensor</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><span class="pre">Tensor</span></a></span></span><a class="headerlink" href="#tensordict.MemmapTensor.as_tensor" title="Permalink to this definition">¶</a></dt>
-<dd><p>Represents a MemmapTensor as a tensor, with the same storage (ie without any copy).</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="tensordict.MemmapTensor.clone">
-<span class="sig-name descname"><span class="pre">clone</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#tensordict.MemmapTensor" title="tensordict.memmap.MemmapTensor"><span class="pre">MemmapTensor</span></a></span></span><a class="headerlink" href="#tensordict.MemmapTensor.clone" title="Permalink to this definition">¶</a></dt>
-<dd><p>Clones the MemmapTensor onto another tensor.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>a new torch.Tensor with the same data but a new storage.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="tensordict.MemmapTensor.contiguous">
-<span class="sig-name descname"><span class="pre">contiguous</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><span class="pre">Tensor</span></a></span></span><a class="headerlink" href="#tensordict.MemmapTensor.contiguous" title="Permalink to this definition">¶</a></dt>
-<dd><p>Copies the MemmapTensor onto a torch.Tensor object.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>a torch.Tensor instance with the data of the MemmapTensor</p>
-</dd>
-</dl>
-<p>stored on the desired device.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="tensordict.MemmapTensor.cpu">
-<span class="sig-name descname"><span class="pre">cpu</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><span class="pre">Tensor</span></a></span></span><a class="headerlink" href="#tensordict.MemmapTensor.cpu" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines the device of the MemmapTensor as “cpu”.</p>
-<p>Returns: a MemmapTensor where device has been modified in-place</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="tensordict.MemmapTensor.cuda">
-<span class="sig-name descname"><span class="pre">cuda</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><span class="pre">Tensor</span></a></span></span><a class="headerlink" href="#tensordict.MemmapTensor.cuda" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines the device of the MemmapTensor as “cuda”.</p>
-<p>Returns: a MemmapTensor where device has been modified in-place</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="tensordict.MemmapTensor.set_transfer_ownership">
-<span class="sig-name descname"><span class="pre">set_transfer_ownership</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#tensordict.MemmapTensor" title="tensordict.memmap.MemmapTensor"><span class="pre">MemmapTensor</span></a></span></span><a class="headerlink" href="#tensordict.MemmapTensor.set_transfer_ownership" title="Permalink to this definition">¶</a></dt>
-<dd><p>Controls whether the ownership will be transferred to another process upon serialization/deserialization.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – if True, the ownership will be transferred.
-Otherwise the process will keep ownership of the
-MemmapTensor temp file.
-Default = True</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>the MemmapTensor</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="tensordict.MemmapTensor.to">
-<span class="sig-name descname"><span class="pre">to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DeviceType</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://pytorch.org/docs/stable/tensor_attributes.html#torch.dtype" title="(in PyTorch v2.0)"><span class="pre">torch.dtype</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">non_blocking</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><span class="pre">torch.Tensor</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#tensordict.MemmapTensor" title="tensordict.MemmapTensor"><span class="pre">MemmapTensor</span></a></span></span><a class="headerlink" href="#tensordict.MemmapTensor.to" title="Permalink to this definition">¶</a></dt>
-<dd><p>Maps a MemmapTensor to a given dtype or device.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dest</strong> (<em>device indicator</em><em> or </em><a class="reference external" href="https://pytorch.org/docs/stable/tensor_attributes.html#torch.dtype" title="(in PyTorch v2.0)"><em>torch.dtype</em></a>) – where to cast the
-MemmapTensor. For devices, this is a lazy operation
-(as the data is stored on physical memory). For dtypes, the
-tensor will be retrieved, mapped to the
-desired dtype and cast to a new MemmapTensor.</p></li>
-<li><p><strong>non_blocking</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – no-op for MemmapTensors. Default: False.</p></li>
-</ul>
-</dd>
-</dl>
-<p>Returns: the same memmap-tensor with the changed device.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="tensordict.MemmapTensor.unbind">
-<span class="sig-name descname"><span class="pre">unbind</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><span class="pre">torch.Tensor</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#tensordict.MemmapTensor.unbind" title="Permalink to this definition">¶</a></dt>
-<dd><p>Unbinds a MemmapTensor along the desired dimension.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – dimension along which the MemmapTensor will be split.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A tuple of indexed MemmapTensors that share the same storage.</p>
-</dd>
-</dl>
-</dd></dl>
-
 </dd></dl>
 
 </section>
@@ -538,10 +400,10 @@ desired dtype and cast to a new MemmapTensor.</p></li>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="tensordict.utils.expand_as_right.html" class="btn btn-neutral float-right" title="expand_as_right" accesskey="n" rel="next">Next <img src="../../_static/images/chevron-right-orange.svg" class="next-page"></a>
+        <a href="tensordict.make_tensordict.html" class="btn btn-neutral float-right" title="make_tensordict" accesskey="n" rel="next">Next <img src="../../_static/images/chevron-right-orange.svg" class="next-page"></a>
       
       
-        <a href="tensordict.LazyStackedTensorDict.html" class="btn btn-neutral" title="LazyStackedTensorDict" accesskey="p" rel="prev"><img src="../../_static/images/chevron-right-orange.svg" class="previous-page"> Previous</a>
+        <a href="tensordict.is_batchedtensor.html" class="btn btn-neutral" title="is_batchedtensor" accesskey="p" rel="prev"><img src="../../_static/images/chevron-right-orange.svg" class="previous-page"> Previous</a>
       
     </div>
   
@@ -573,18 +435,8 @@ desired dtype and cast to a new MemmapTensor.</p></li>
           <div class="pytorch-right-menu" id="pytorch-right-menu">
             <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
               <ul>
-<li><a class="reference internal" href="#">MemmapTensor</a><ul>
-<li><a class="reference internal" href="#tensordict.MemmapTensor"><code class="docutils literal notranslate"><span class="pre">MemmapTensor</span></code></a><ul>
-<li><a class="reference internal" href="#tensordict.MemmapTensor.as_tensor"><code class="docutils literal notranslate"><span class="pre">MemmapTensor.as_tensor()</span></code></a></li>
-<li><a class="reference internal" href="#tensordict.MemmapTensor.clone"><code class="docutils literal notranslate"><span class="pre">MemmapTensor.clone()</span></code></a></li>
-<li><a class="reference internal" href="#tensordict.MemmapTensor.contiguous"><code class="docutils literal notranslate"><span class="pre">MemmapTensor.contiguous()</span></code></a></li>
-<li><a class="reference internal" href="#tensordict.MemmapTensor.cpu"><code class="docutils literal notranslate"><span class="pre">MemmapTensor.cpu()</span></code></a></li>
-<li><a class="reference internal" href="#tensordict.MemmapTensor.cuda"><code class="docutils literal notranslate"><span class="pre">MemmapTensor.cuda()</span></code></a></li>
-<li><a class="reference internal" href="#tensordict.MemmapTensor.set_transfer_ownership"><code class="docutils literal notranslate"><span class="pre">MemmapTensor.set_transfer_ownership()</span></code></a></li>
-<li><a class="reference internal" href="#tensordict.MemmapTensor.to"><code class="docutils literal notranslate"><span class="pre">MemmapTensor.to()</span></code></a></li>
-<li><a class="reference internal" href="#tensordict.MemmapTensor.unbind"><code class="docutils literal notranslate"><span class="pre">MemmapTensor.unbind()</span></code></a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#">is_tensor_collection</a><ul>
+<li><a class="reference internal" href="#tensordict.is_tensor_collection"><code class="docutils literal notranslate"><span class="pre">is_tensor_collection</span></code></a></li>
 </ul>
 </li>
 </ul>

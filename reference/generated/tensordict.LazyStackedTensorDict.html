@@ -218,7 +218,7 @@
               
               
                 <div class="version">
-                  main (0.0.3+52380e9 )
+                  main (0.0.3+c4fb0dc )
                 </div>
               
             
@@ -1489,8 +1489,8 @@ is unlocked.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="tensordict.LazyStackedTensorDict.split">
 <span class="sig-name descname"><span class="pre">split</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">split_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><span class="pre">TensorDictBase</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#tensordict.LazyStackedTensorDict.split" title="Permalink to this definition">¶</a></dt>
-<dd><p>Splits each tensor in the TensorDict with the specified size in the given dimension, like <cite>torch.split</cite>.
-Returns a list of TensorDict with the view of split chunks of items. Nested TensorDicts will remain nested.</p>
+<dd><p>Splits each tensor in the TensorDict with the specified size in the given dimension, like <cite>torch.split</cite>.</p>
+<p>Returns a list of TensorDict with the view of split chunks of items. Nested TensorDicts will remain nested.</p>
 <p>The list of TensorDict maintains the original order of the tensor chunks.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
