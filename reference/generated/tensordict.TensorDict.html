@@ -218,7 +218,7 @@
               
               
                 <div class="version">
-                  main (0.1.0+fc045aa )
+                  main (0.1.0+e73fa62 )
                 </div>
               
             
@@ -714,6 +714,68 @@ TensorDict will be copied too. Default is <cite>True</cite>.</p>
 <dd class="field-even"><p>self</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tensordict.TensorDict.from_dict">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tensordict.TensorDict.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a TensorDict created from a dictionary or another <a class="reference internal" href="#tensordict.TensorDict" title="tensordict.TensorDict"><code class="xref py py-class docutils literal notranslate"><span class="pre">TensorDict</span></code></a>.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">batch_size</span></code> is not specified, returns the maximum batch size possible.</p>
+<p>This function works on nested dictionaries too, or can be used to determine the
+batch-size of a nested tensordict.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_dict</strong> (<em>dictionary</em><em>, </em><em>optional</em>) – a dictionary to use as a data source
+(nested keys compatible).</p></li>
+<li><p><strong>batch_size</strong> (<em>iterable</em><em> of </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>optional</em>) – a batch size for the tensordict.</p></li>
+<li><p><strong>device</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensor_attributes.html#torch.device" title="(in PyTorch v2.0)"><em>torch.device</em></a><em> or </em><em>compatible type</em><em>, </em><em>optional</em>) – a device for the TensorDict.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">input_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">)}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">TensorDict</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">input_dict</span><span class="p">))</span>
+<span class="go">TensorDict(</span>
+<span class="go">    fields={</span>
+<span class="go">        a: Tensor(shape=torch.Size([3, 4]), device=cpu, dtype=torch.float32, is_shared=False),</span>
+<span class="go">        b: Tensor(shape=torch.Size([3]), device=cpu, dtype=torch.float32, is_shared=False)},</span>
+<span class="go">    batch_size=torch.Size([3]),</span>
+<span class="go">    device=None,</span>
+<span class="go">    is_shared=False)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># nested dict: the nested TensorDict can have a different batch-size</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># as long as its leading dims match.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">input_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)}}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">TensorDict</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">input_dict</span><span class="p">))</span>
+<span class="go">TensorDict(</span>
+<span class="go">    fields={</span>
+<span class="go">        a: Tensor(shape=torch.Size([3]), device=cpu, dtype=torch.float32, is_shared=False),</span>
+<span class="go">        b: TensorDict(</span>
+<span class="go">            fields={</span>
+<span class="go">                c: Tensor(shape=torch.Size([3, 4]), device=cpu, dtype=torch.float32, is_shared=False)},</span>
+<span class="go">            batch_size=torch.Size([3, 4]),</span>
+<span class="go">            device=None,</span>
+<span class="go">            is_shared=False)},</span>
+<span class="go">    batch_size=torch.Size([3]),</span>
+<span class="go">    device=None,</span>
+<span class="go">    is_shared=False)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># we can also use this to work out the batch sie of a tensordict</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">input_td</span> <span class="o">=</span> <span class="n">TensorDict</span><span class="p">({</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)}},</span> <span class="p">[])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">TensorDict</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">input_td</span><span class="p">))</span>
+<span class="go">TensorDict(</span>
+<span class="go">    fields={</span>
+<span class="go">        a: Tensor(shape=torch.Size([3]), device=cpu, dtype=torch.float32, is_shared=False),</span>
+<span class="go">        b: TensorDict(</span>
+<span class="go">            fields={</span>
+<span class="go">                c: Tensor(shape=torch.Size([3, 4]), device=cpu, dtype=torch.float32, is_shared=False)},</span>
+<span class="go">            batch_size=torch.Size([3, 4]),</span>
+<span class="go">            device=None,</span>
+<span class="go">            is_shared=False)},</span>
+<span class="go">    batch_size=torch.Size([3]),</span>
+<span class="go">    device=None,</span>
+<span class="go">    is_shared=False)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -1773,6 +1835,7 @@ tensor) dict should be cloned before being set. Default is
 <li><a class="reference internal" href="#tensordict.TensorDict.entry_class"><code class="docutils literal notranslate"><span class="pre">TensorDict.entry_class()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.TensorDict.expand"><code class="docutils literal notranslate"><span class="pre">TensorDict.expand()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.TensorDict.fill_"><code class="docutils literal notranslate"><span class="pre">TensorDict.fill_()</span></code></a></li>
+<li><a class="reference internal" href="#tensordict.TensorDict.from_dict"><code class="docutils literal notranslate"><span class="pre">TensorDict.from_dict()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.TensorDict.gather"><code class="docutils literal notranslate"><span class="pre">TensorDict.gather()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.TensorDict.gather_and_stack"><code class="docutils literal notranslate"><span class="pre">TensorDict.gather_and_stack()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.TensorDict.get"><code class="docutils literal notranslate"><span class="pre">TensorDict.get()</span></code></a></li>
