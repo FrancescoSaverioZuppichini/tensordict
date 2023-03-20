@@ -1043,7 +1043,7 @@ Benchmarking
 
  .. code-block:: none
 
-    Execution time: 0.01491236686706543 seconds
+    Execution time: 0.012595891952514648 seconds
 
 
 
@@ -1066,7 +1066,7 @@ Benchmarking
 
  .. code-block:: none
 
-    Execution time: 0.007135629653930664 seconds
+    Execution time: 0.006303071975708008 seconds
 
 
 
@@ -1081,7 +1081,7 @@ Have fun with TensorDictModule!
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  10.112 seconds)
+   **Total running time of the script:** ( 0 minutes  10.103 seconds)
 
 
 .. _sphx_glr_download_tutorials_tensordict_module.py:
