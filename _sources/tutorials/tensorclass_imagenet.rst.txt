@@ -364,8 +364,8 @@ allows us to save repeated computation later during training.
 
  .. code-block:: none
 
-      0%|          | 0/244 [00:00<?, ?it/s]     26%|##6       | 64/244 [00:00<00:01, 97.87it/s]    100%|##########| 244/244 [00:00<00:00, 328.81it/s]
-      0%|          | 0/153 [00:00<?, ?it/s]     42%|####1     | 64/153 [00:00<00:00, 135.07it/s]     84%|########3 | 128/153 [00:00<00:00, 218.50it/s]    100%|##########| 153/153 [00:00<00:00, 227.11it/s]
+      0%|          | 0/244 [00:00<?, ?it/s]     26%|##6       | 64/244 [00:00<00:01, 100.95it/s]    100%|##########| 244/244 [00:00<00:00, 323.88it/s]
+      0%|          | 0/153 [00:00<?, ?it/s]     42%|####1     | 64/153 [00:00<00:00, 115.90it/s]    100%|##########| 153/153 [00:00<00:00, 244.04it/s]
 
 
 
@@ -495,7 +495,7 @@ starting the dataloader can take some time).
 
  .. code-block:: none
 
-    One iteration over dataloader done! Rate: 421.7493 fps, time:  0.5216s
+    One iteration over dataloader done! Rate: 404.2233 fps, time:  0.5443s
 
 
 
@@ -531,7 +531,7 @@ transformations to the batched images.
 
  .. code-block:: none
 
-    One iteration over tensorclass dataloader done! Rate: 980.7129 fps, time:  0.2243s
+    One iteration over tensorclass dataloader done! Rate: 972.1127 fps, time:  0.2263s
 
 
 
@@ -580,8 +580,8 @@ need for additional transformations as we load from disk.
 
  .. code-block:: none
 
-    One iteration over val data done! Rate: 303.5523 fps, time:  0.4250s
-    One iteration over tensorclass val data done! Rate: 9349.9899 fps, time:  0.0138s
+    One iteration over val data done! Rate: 303.7667 fps, time:  0.4247s
+    One iteration over tensorclass val data done! Rate: 10097.5145 fps, time:  0.0128s
 
 
 
