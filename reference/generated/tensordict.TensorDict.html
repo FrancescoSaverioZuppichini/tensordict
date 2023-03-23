@@ -218,7 +218,7 @@
               
               
                 <div class="version">
-                  main (0.1.0+304249f )
+                  main (0.1.0+55ade40 )
                 </div>
               
             
@@ -1302,8 +1302,8 @@ Defaults to <code class="docutils literal notranslate"><span class="pre">False</
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="tensordict.TensorDict.rename_key">
-<span class="sig-name descname"><span class="pre">rename_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tensordict.TensorDict.rename_key" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="tensordict.TensorDict.rename_key_">
+<span class="sig-name descname"><span class="pre">rename_key_</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">old_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">safe</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">TensorDictBase</span></span></span><a class="headerlink" href="#tensordict.TensorDict.rename_key_" title="Permalink to this definition">¶</a></dt>
 <dd><p>Renames a key with a new string.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1610,6 +1610,53 @@ the tensordict device, this is a no-op.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="tensordict.TensorDict.to_h5">
+<span class="sig-name descname"><span class="pre">to_h5</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tensordict.TensorDict.to_h5" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts a tensordict to a PersistentTensorDict with the h5 backend.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> or </em><em>path</em>) – path to the h5 file.</p></li>
+<li><p><strong>device</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensor_attributes.html#torch.device" title="(in PyTorch v2.0)"><em>torch.device</em></a><em> or </em><em>compatible</em><em>, </em><em>optional</em>) – the device where to
+expect the tensor once they are returned. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>
+(on cpu by default).</p></li>
+<li><p><strong>**kwargs</strong> – kwargs to be passed to <code class="xref py py-meth docutils literal notranslate"><span class="pre">h5py.File.create_dataset()</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">PersitentTensorDict</span></code> instance linked to the newly created file.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">tempfile</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">timeit</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">tensordict</span> <span class="kn">import</span> <span class="n">TensorDict</span><span class="p">,</span> <span class="n">MemmapTensor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">td</span> <span class="o">=</span> <span class="n">TensorDict</span><span class="p">({</span>
+<span class="gp">... </span>    <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="n">MemmapTensor</span><span class="p">(</span><span class="mi">1_000_000</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="n">MemmapTensor</span><span class="p">(</span><span class="mi">1_000_000</span><span class="p">,</span> <span class="mi">3</span><span class="p">)},</span>
+<span class="gp">... </span><span class="p">},</span> <span class="p">[</span><span class="mi">1_000_000</span><span class="p">])</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">file</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">td_h5</span> <span class="o">=</span> <span class="n">td</span><span class="o">.</span><span class="n">to_h5</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">compression_opts</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">td_h5</span><span class="p">)</span>
+<span class="go">PersistentTensorDict(</span>
+<span class="go">    fields={</span>
+<span class="go">        a: Tensor(shape=torch.Size([1000000]), device=cpu, dtype=torch.float32, is_shared=False),</span>
+<span class="go">        b: PersistentTensorDict(</span>
+<span class="go">            fields={</span>
+<span class="go">                c: Tensor(shape=torch.Size([1000000, 3]), device=cpu, dtype=torch.float32, is_shared=False)},</span>
+<span class="go">            batch_size=torch.Size([1000000]),</span>
+<span class="go">            device=None,</span>
+<span class="go">            is_shared=False)},</span>
+<span class="go">    batch_size=torch.Size([1000000]),</span>
+<span class="go">    device=None,</span>
+<span class="go">    is_shared=False)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="tensordict.TensorDict.to_tensordict">
 <span class="sig-name descname"><span class="pre">to_tensordict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tensordict.TensorDict.to_tensordict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a regular TensorDict instance from the TensorDictBase.</p>
@@ -1859,7 +1906,7 @@ tensor) dict should be cloned before being set. Default is
 <li><a class="reference internal" href="#tensordict.TensorDict.pop"><code class="docutils literal notranslate"><span class="pre">TensorDict.pop()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.TensorDict.popitem"><code class="docutils literal notranslate"><span class="pre">TensorDict.popitem()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.TensorDict.recv"><code class="docutils literal notranslate"><span class="pre">TensorDict.recv()</span></code></a></li>
-<li><a class="reference internal" href="#tensordict.TensorDict.rename_key"><code class="docutils literal notranslate"><span class="pre">TensorDict.rename_key()</span></code></a></li>
+<li><a class="reference internal" href="#tensordict.TensorDict.rename_key_"><code class="docutils literal notranslate"><span class="pre">TensorDict.rename_key_()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.TensorDict.reshape"><code class="docutils literal notranslate"><span class="pre">TensorDict.reshape()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.TensorDict.select"><code class="docutils literal notranslate"><span class="pre">TensorDict.select()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.TensorDict.send"><code class="docutils literal notranslate"><span class="pre">TensorDict.send()</span></code></a></li>
@@ -1875,6 +1922,7 @@ tensor) dict should be cloned before being set. Default is
 <li><a class="reference internal" href="#tensordict.TensorDict.squeeze"><code class="docutils literal notranslate"><span class="pre">TensorDict.squeeze()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.TensorDict.to"><code class="docutils literal notranslate"><span class="pre">TensorDict.to()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.TensorDict.to_dict"><code class="docutils literal notranslate"><span class="pre">TensorDict.to_dict()</span></code></a></li>
+<li><a class="reference internal" href="#tensordict.TensorDict.to_h5"><code class="docutils literal notranslate"><span class="pre">TensorDict.to_h5()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.TensorDict.to_tensordict"><code class="docutils literal notranslate"><span class="pre">TensorDict.to_tensordict()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.TensorDict.unbind"><code class="docutils literal notranslate"><span class="pre">TensorDict.unbind()</span></code></a></li>
 <li><a class="reference internal" href="#tensordict.TensorDict.unsqueeze"><code class="docutils literal notranslate"><span class="pre">TensorDict.unsqueeze()</span></code></a></li>
