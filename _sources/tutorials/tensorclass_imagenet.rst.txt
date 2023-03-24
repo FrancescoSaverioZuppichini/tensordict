@@ -364,8 +364,8 @@ allows us to save repeated computation later during training.
 
  .. code-block:: none
 
-      0%|          | 0/244 [00:00<?, ?it/s]     26%|##6       | 64/244 [00:00<00:01, 95.23it/s]    100%|##########| 244/244 [00:00<00:00, 326.38it/s]
-      0%|          | 0/153 [00:00<?, ?it/s]     42%|####1     | 64/153 [00:00<00:00, 113.96it/s]    100%|##########| 153/153 [00:00<00:00, 247.38it/s]
+      0%|          | 0/244 [00:00<?, ?it/s]     26%|##6       | 64/244 [00:00<00:01, 94.27it/s]    100%|##########| 244/244 [00:00<00:00, 325.82it/s]
+      0%|          | 0/153 [00:00<?, ?it/s]     42%|####1     | 64/153 [00:00<00:00, 125.64it/s]     84%|########3 | 128/153 [00:00<00:00, 237.12it/s]    100%|##########| 153/153 [00:00<00:00, 237.78it/s]
 
 
 
@@ -495,7 +495,7 @@ starting the dataloader can take some time).
 
  .. code-block:: none
 
-    One iteration over dataloader done! Rate: 440.4520 fps, time:  0.4995s
+    One iteration over dataloader done! Rate: 407.7963 fps, time:  0.5395s
 
 
 
@@ -531,7 +531,7 @@ transformations to the batched images.
 
  .. code-block:: none
 
-    One iteration over tensorclass dataloader done! Rate: 856.0090 fps, time:  0.2570s
+    One iteration over tensorclass dataloader done! Rate: 917.3775 fps, time:  0.2398s
 
 
 
@@ -580,8 +580,8 @@ need for additional transformations as we load from disk.
 
  .. code-block:: none
 
-    One iteration over val data done! Rate: 318.4284 fps, time:  0.4051s
-    One iteration over tensorclass val data done! Rate: 8228.5030 fps, time:  0.0157s
+    One iteration over val data done! Rate: 317.7895 fps, time:  0.4059s
+    One iteration over tensorclass val data done! Rate: 9583.3298 fps, time:  0.0135s
 
 
 
@@ -618,7 +618,7 @@ for an example of how this could work.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  3.188 seconds)
+   **Total running time of the script:** ( 0 minutes  3.221 seconds)
 
 
 .. _sphx_glr_download_tutorials_tensorclass_imagenet.py:
