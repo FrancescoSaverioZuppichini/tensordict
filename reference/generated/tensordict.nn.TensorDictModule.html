@@ -218,7 +218,7 @@
               
               
                 <div class="version">
-                  main (0.1.0+9c1910d )
+                  main (0.1.0+82054e7 )
                 </div>
               
             
@@ -371,6 +371,9 @@
 <dt class="sig sig-object py" id="tensordict.nn.TensorDictModule">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tensordict.nn.</span></span><span class="sig-name descname"><span class="pre">TensorDictModule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">FunctionalModule</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">FunctionalModuleWithBuffers</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#tensordict.nn.TensorDictModule" title="tensordict.nn.TensorDictModule"><span class="pre">TensorDictModule</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">nn.Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_keys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">NestedKey</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_keys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">NestedKey</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tensordict.nn.TensorDictModule" title="Permalink to this definition">¶</a></dt>
 <dd><p>A TensorDictModule, is a python wrapper around a <code class="xref py py-obj docutils literal notranslate"><span class="pre">nn.Module</span></code> that reads and writes to a TensorDict.</p>
+<p>By default, <a class="reference internal" href="#tensordict.nn.TensorDictModule" title="tensordict.nn.TensorDictModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">TensorDictModule</span></code></a> subclasses are always functional,
+meaning that they support the <code class="docutils literal notranslate"><span class="pre">td_module(input,</span> <span class="pre">params=params)</span></code> function
+call signature.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">

@@ -218,7 +218,7 @@
               
               
                 <div class="version">
-                  main (0.1.0+9c1910d )
+                  main (0.1.0+82054e7 )
                 </div>
               
             
@@ -369,7 +369,7 @@
 <h1>ProbabilisticTensorDictModule<a class="headerlink" href="#probabilistictensordictmodule" title="Permalink to this heading">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="tensordict.nn.ProbabilisticTensorDictModule">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tensordict.nn.</span></span><span class="sig-name descname"><span class="pre">ProbabilisticTensorDictModule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_keys:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">Sequence[str]</span> <span class="pre">|</span> <span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_keys:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">Sequence[str]</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_interaction_mode:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">'mode'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distribution_class:</span> <span class="pre">type</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'tensordict.nn.distributions.continuous.Delta'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distribution_kwargs:</span> <span class="pre">dict</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_log_prob:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_dist:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_empirical_estimate:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tensordict.nn.ProbabilisticTensorDictModule" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tensordict.nn.</span></span><span class="sig-name descname"><span class="pre">ProbabilisticTensorDictModule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_keys:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">Sequence[str]</span> <span class="pre">|</span> <span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_keys:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">Sequence[str]</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_interaction_mode:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">'mode'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distribution_class:</span> <span class="pre">type</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'tensordict.nn.distributions.continuous.Delta'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distribution_kwargs:</span> <span class="pre">dict</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_log_prob:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_dist:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_empirical_estimate:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tensordict.nn.ProbabilisticTensorDictModule" title="Permalink to this definition">¶</a></dt>
 <dd><p>A probabilistic TD Module.</p>
 <p><cite>ProbabilisticTensorDictModule</cite> is a non-parametric module representing a
 probability distribution. It reads the distribution parameters from an input
@@ -403,7 +403,8 @@ tensordict that will get match to the corresponding distribution keys.</p></li>
 <li><p><strong>out_keys</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> or </em><em>iterable</em><em> of </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – keys where the sampled values will be
 written. Importantly, if these keys are found in the input TensorDict, the
 sampling step will be skipped.</p></li>
-<li><p><strong>default_interaction_mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>optional</em>) – default method to be used to retrieve
+<li><p><strong>default_interaction_mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>optional</em>) – keyword-only argument.
+Default method to be used to retrieve
 the output value. Should be one of: ‘mode’, ‘median’, ‘mean’ or ‘random’
 (in which case the value is sampled randomly from the distribution). Default
 is ‘mode’.
@@ -413,20 +414,26 @@ global function. If this returns <cite>None</cite> (its default value), then the
 <cite>default_interaction_mode</cite> of the <cite>ProbabilisticTDModule</cite> instance will be
 used. Note that DataCollector instances will use <cite>set_interaction_mode</cite> to
 <cite>“random”</cite> by default.</p></li>
-<li><p><strong>distribution_class</strong> (<em>Type</em><em>, </em><em>optional</em>) – a torch.distributions.Distribution class to
-be used for sampling. Default is Delta.</p></li>
-<li><p><strong>distribution_kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>, </em><em>optional</em>) – kwargs to be passed to the distribution.</p></li>
-<li><p><strong>return_log_prob</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – if True, the log-probability of the
+<li><p><strong>distribution_class</strong> (<em>Type</em><em>, </em><em>optional</em>) – keyword-only argument.
+A <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.distributions.Distribution</span></code> class to
+be used for sampling.
+Default is <code class="xref py py-class docutils literal notranslate"><span class="pre">tensordict.nn.distributions.Delta</span></code>.</p></li>
+<li><p><strong>distribution_kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>, </em><em>optional</em>) – keyword-only argument.
+Keyword-argument pairs to be passed to the distribution.</p></li>
+<li><p><strong>return_log_prob</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – keyword-only argument.
+If <code class="docutils literal notranslate"><span class="pre">True</span></code>, the log-probability of the
 distribution sample will be written in the tensordict with the key
-<cite>‘sample_log_prob’</cite>. Default is <cite>False</cite>.</p></li>
-<li><p><strong>cache_dist</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – EXPERIMENTAL: if True, the parameters of the
+<cite>‘sample_log_prob’</cite>. Default is <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+<li><p><strong>cache_dist</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – keyword-only argument.
+EXPERIMENTAL: if <code class="docutils literal notranslate"><span class="pre">True</span></code>, the parameters of the
 distribution (i.e. the output of the module) will be written to the
 tensordict along with the sample. Those parameters can be used to re-compute
 the original distribution later on (e.g. to compute the divergence between
 the distribution used to sample the action and the updated distribution in
-PPO). Default is <cite>False</cite>.</p></li>
-<li><p><strong>n_empirical_estimate</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>optional</em>) – number of samples to compute the empirical
-mean when it is not available. Default is 1000</p></li>
+PPO). Default is <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+<li><p><strong>n_empirical_estimate</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>optional</em>) – keyword-only argument.
+Number of samples to compute the empirical
+mean when it is not available. Defaults to 1000.</p></li>
 </ul>
 </dd>
 </dl>
